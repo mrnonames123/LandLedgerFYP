@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster: Hospital Management System (A3) - JS Version</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS styles remain the same as the HTML version for consistent appearance */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .poster-container {
+            width: 100%;
+            max-width: 842px;
+            aspect-ratio: 297 / 420;
+            margin: auto;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .poster-header {
+            background: linear-gradient(135deg, #4F46E5, #818CF8);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .poster-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-top: 1rem;
+        }
+        .content-grid {
+            padding: 1.5rem;
+            display: grid;
+            gap: 1.5rem;
+            flex-grow: 1;
+            /* removed overflow-y: auto; */
+        }
+        @media (min-width: 600px) {
+            .content-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #6366F1;
+            display: inline-block;
+        }
+        .card {
+            background-color: #F8FAFC;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid #E2E8F0;
+        }
+        .flow-diagram { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+        .flow-item { background-color: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; text-align: center; width: 90%; font-size: 0.875rem; box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .flow-parallel-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; width: 100%; padding: 0 1rem; }
+        .flow-parallel-item { background-color: #F0F9FF; color: #0284C7; border: 1px solid #BAE6FD; padding: 0.5rem; font-size: 0.8rem; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+        .flow-arrow { font-size: 1.5rem; color: #94A3B8; }
+        .component-card { background: #ffffff; border-left: 4px solid #818CF8; padding: 0.75rem; border-radius: 0.25rem; margin-bottom: 0.75rem; font-size: 0.875rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .component-card strong { color: #4F46E5; }
+        .parameter-step { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.875rem; }
+        .step-number { background-color: #6366F1; color: white; font-weight: 700; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+
+    <div id="poster-root"></div>
+
+    <script>
+        // --- DATA ---
+        // All the content for the poster is stored in this JavaScript object.
+        const posterData = {
+            header: {
+                name: "Denil Daby",
+                uid: "22016053",
+                topic: "ITPM Assignment-1",
+                title: "Project Poster: Hospital Management System"
+            },
+            introduction: {
+                title: "1. Introduction",
+                text: "The Hospital Management System (HMS) is a comprehensive IT project designed to streamline and automate hospital operations. The primary goal is to enhance patient care, improve administrative efficiency, reduce costs, and minimize errors. This poster outlines the project's workflow using a network diagram to ensure tasks are logically sequenced from start to finish."
+            },
+            networkDiagram: {
+                title: "2. Network Diagram",
+                steps: [
+                    "A. Initiation & Planning",
+                    "B. Requirements Gathering",
+                    "C. System & Database Design",
+                    {
+                        parallel: [
+                            "D. Patient Mgmt",
+                            "E. Appoint. Sched.",
+                            "F. Billing Module",
+                            "G. Staff Mgmt",
+                            "H. UI/UX Design"
+                        ]
+                    },
+                    "I. Module Integration",
+                    "J. System Testing (QA)",
+                    "K. User Acceptance Test",
+                    "L. Deployment & Go-Live",
+                    "M. Post-Launch Support"
+                ]
+            },
+            components: {
+                title: "3. Key Components",
+                items: [
+                    "<strong>D. Patient Management:</strong> Handles registration, medical history, and personal info.",
+                    "<strong>E. Appointment Scheduling:</strong> Allows staff to book, reschedule, and cancel appointments.",
+                    "<strong>F. Billing & Invoicing:</strong> Manages all financial transactions and bills.",
+                    "<strong>G. Staff Management:</strong> Manages info for doctors, nurses, and other staff.",
+                    "<strong>H. UI/UX Design:</strong> Focuses on creating an intuitive, user-friendly interface."
+                ]
+            },
+            parameters: {
+                title: "4. Parameters (Flow)",
+                steps: [
+                    "<strong>A &rarr; B:</strong> Project planning defines scope, leading to detailed requirements gathering.",
+                    "<strong>B &rarr; C:</strong> Requirements inform the technical architecture and database design.",
+                    "<strong>C &rarr; D-H:</strong> The design allows for parallel development of all core modules and the UI/UX.",
+                    "<strong>D-H &rarr; I:</strong> Developed modules are combined during integration to ensure they work together.",
+                    "<strong>I &rarr; J:</strong> The integrated system undergoes rigorous QA testing to find and fix bugs.",
+                    "<strong>J &rarr; K:</strong> End-users perform UAT to confirm the system meets their needs.",
+                    "<strong>K &rarr; L:</strong> After UAT, the system is deployed and goes live for hospital-wide use.",
+                    "<strong>L &rarr; M:</strong> The project concludes with ongoing support and maintenance post-launch."
+                ]
+            },
+            conclusion: {
+                title: "5. Conclusion",
+                text: "This network diagram helps visualize dependencies and define the critical path. This systematic approach minimizes risks and increases the likelihood of delivering a high-quality system on time and within budget, ultimately improving healthcare services."
+            }
+        };
+
+        // --- RENDER LOGIC ---
+        // This function builds the poster HTML from the data object.
+        function createPoster(data) {
+            const root = document.getElementById('poster-root');
+
+            // Helper function to create elements with classes
+            const createElement = (tag, classNames = [], content = '') => {
+                const el = document.createElement(tag);
+                if (classNames.length) el.className = classNames.join(' ');
+                if (content) el.innerHTML = content;
+                return el;
+            };
+            
+            // Main container
+            const container = createElement('div', ['poster-container']);
+            root.appendChild(container);
+
+            // Header
+            const header = createElement('header', ['poster-header']);
+            header.innerHTML = `
+                <div class="text-indigo-200 text-sm">
+                    <p><strong>Name:</strong> ${data.header.name}</p>
+                    <p><strong>UID:</strong> ${data.header.uid}</p>
+                    <p><strong>Topic:</strong> ${data.header.topic}</p>
+                </div>
+                <h1>${data.header.title}</h1>`;
+            container.appendChild(header);
+            
+            // Content Grid
+            const main = createElement('main', ['content-grid']);
+            container.appendChild(main);
+
+            const leftCol = createElement('div');
+            const rightCol = createElement('div');
+            main.append(leftCol, rightCol);
+
+            // --- Left Column Content ---
+            // Introduction Card
+            const introCard = createElement('div', ['card', 'mb-4']);
+            introCard.innerHTML = `<h2 class="section-title">${data.introduction.title}</h2><p class="text-gray-600 leading-relaxed text-sm">${data.introduction.text}</p>`;
+            leftCol.appendChild(introCard);
+            
+            // Network Diagram Card
+            const diagramCard = createElement('div', ['card']);
+            const diagramTitle = createElement('h2', ['section-title'], data.networkDiagram.title);
+            const flowDiagram = createElement('div', ['flow-diagram']);
+            data.networkDiagram.steps.forEach((step, index) => {
+                if (index > 0) flowDiagram.appendChild(createElement('div', ['flow-arrow'], '&darr;'));
+                if (typeof step === 'string') {
+                    flowDiagram.appendChild(createElement('div', ['flow-item'], step));
+                } else if (step.parallel) {
+                    const parallelContainer = createElement('div', ['flow-parallel-container']);
+                    step.parallel.forEach(item => {
+                        const pItem = createElement('div', ['flow-item', 'flow-parallel-item'], item);
+                        if (item.includes('UI/UX')) pItem.classList.add('col-span-2');
+                        parallelContainer.appendChild(pItem);
+                    });
+                    flowDiagram.appendChild(parallelContainer);
+                }
+            });
+            diagramCard.append(diagramTitle, flowDiagram);
+            leftCol.appendChild(diagramCard);
+
+            // --- Right Column Content ---
+            // Components Card
+            const componentsCard = createElement('div', ['card', 'mb-4']);
+            const componentsTitle = createElement('h2', ['section-title'], data.components.title);
+            componentsCard.appendChild(componentsTitle);
+            data.components.items.forEach(item => {
+                componentsCard.appendChild(createElement('div', ['component-card'], item));
+            });
+            rightCol.appendChild(componentsCard);
+
+            // Parameters Card
+            const parametersCard = createElement('div', ['card']);
+            const parametersTitle = createElement('h2', ['section-title'], data.parameters.title);
+            parametersCard.appendChild(parametersTitle);
+            data.parameters.steps.forEach((step, index) => {
+                const stepEl = createElement('div', ['parameter-step']);
+                stepEl.innerHTML = `<div class="step-number">${index + 1}</div><p>${step}</p>`;
+                parametersCard.appendChild(stepEl);
+            });
+            rightCol.appendChild(parametersCard);
+            
+            // Conclusion Card
+            const conclusionCard = createElement('div', ['card', 'mt-4']);
+            conclusionCard.innerHTML = `<h2 class="section-title">${data.conclusion.title}</h2><p class="text-gray-600 leading-relaxed text-sm">${data.conclusion.text}</p>`;
+            rightCol.appendChild(conclusionCard);
+        }
+
+        // --- INITIALIZATION ---
+        // Run the function to build the poster when the page loads.
+        window.onload = () => {
+            createPoster(posterData);
+        };
+    </script>
+
+</body>
+</html>

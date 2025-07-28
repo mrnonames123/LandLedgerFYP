@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandLedger+ - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for animations and theme */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes typing-dot {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-3px); }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+            animation-delay: var(--animation-delay, 0s);
+            opacity: 0;
+        }
+        
+        .animate-scale-in {
+            animation: scaleIn 0.4s ease-out forwards;
+            animation-delay: var(--animation-delay, 0s);
+            opacity: 0;
+        }
+        
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: currentColor;
+            margin: 0 1px;
+            animation: typing-dot 1.2s infinite ease-in-out;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        /* --- THEME: Green --- */
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(90deg, #16a34a, #22c55e); /* green-600 to green-500 */
+        }
+
+        /* Smooth theme transition */
+        body, .card, .sidebar, .nav-blur, .modal-content, .theme-icon, #main-content, #ai-chat-container {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* --- TEXT COLOR CLASSES --- */
+        html[data-theme="light"] .text-main { color: #1e293b; } /* slate-800 */
+        html[data-theme="light"] .text-secondary { color: #334155; } /* slate-700 */
+        html[data-theme="light"] .text-placeholder { color: #475569; } /* slate-600 */
+
+        html[data-theme="dark"] .text-main { color: #e2e8f0; } /* slate-200 */
+        html[data-theme="dark"] .text-secondary { color: #94a3b8; } /* slate-400 */
+        html[data-theme="dark"] .text-placeholder { color: #64748b; } /* slate-500 */
+
+
+        /* Light Mode */
+        html[data-theme="light"] body { background-color: #f8fafc; } /* slate-50 */
+        html[data-theme="light"] .card { background-color: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); }
+        html[data-theme="light"] .brand-icon { color: #16a34a; }
+        html[data-theme="light"] .brand-text { color: #16a34a; }
+        html[data-theme="light"] .logo-main-text { color: #000000; } /* Explicitly set to black */
+        html[data-theme="light"] .nav-blur { background-color: rgba(255, 255, 255, 0.8); }
+        html[data-theme="light"] .sidebar { background: #ffffff; }
+        html[data-theme="light"] .sidebar-link:hover { background-color: #f1f5f9; color: #1e293b; }
+        html[data-theme="light"] .sidebar-link-active { background-color: #f0fdf4; color: #16a34a; } /* green-50, green-600 */
+        html[data-theme="light"] .stat-box-active { background-color: #f0fdf4; border-color: #16a34a; }
+        html[data-theme="light"] input:checked + .slider { background-color: #16a34a; }
+        html[data-theme="light"] .main-button { background-image: linear-gradient(to right, #16a34a, #22c55e); }
+        html[data-theme="light"] .avatar-border { border-color: #16a34a; }
+        html[data-theme="light"] .ai-input { background-color: #ffffff; border-color: #e2e8f0; }
+        html[data-theme="light"] .ai-input:focus { border-color: #16a34a; ring: 2px; ring-color: rgba(22, 163, 74, 0.5); }
+        html[data-theme="light"] .modal-content { background-color: #f8fafc; } /* slate-50 */
+        
+        /* Dark Mode */
+        html[data-theme="dark"] body { background-color: #020617; color: #cbd5e1; } /* slate-950 */
+        html[data-theme="dark"] .card { background-color: #0f172a; border-color: #1e293b; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2); }
+        html[data-theme="dark"] .sidebar { background: #0f172a; } /* slate-900 */
+        html[data-theme="dark"] .sidebar-link:hover { background-color: #1e293b; color: #ffffff; }
+        html[data-theme="dark"] .nav-blur { background-color: rgba(2, 6, 23, 0.8); }
+        html[data-theme="dark"] .sidebar-link-active { background-color: #1e40af; color: #60a5fa; } /* blue for contrast */
+        html[data-theme="dark"] .brand-icon { color: #22c55e; }
+        html[data-theme="dark"] .brand-text { color: #22c55e; }
+        html[data-theme="dark"] .logo-main-text { color: #cbd5e1; } /* slate-300 */
+        html[data-theme="dark"] .stat-box-active { background-color: #111827; border-color: #22c55e; } /* gray-900, green-500 */
+        html[data-theme="dark"] .avatar-border { border-color: #22c55e; }
+        html[data-theme="dark"] .ai-input { background-color: #0f172a; border-color: #1e293b; }
+        html[data-theme="dark"] .ai-input:focus { border-color: #22c55e; ring: 2px; ring-color: rgba(34, 197, 94, 0.5); }
+        html[data-theme="dark"] .main-button { background-image: linear-gradient(to right, #16a34a, #22c55e); box-shadow: 0 0 15px rgba(34, 197, 94, 0.5); border: none; }
+        html[data-theme="dark"] .modal-content { background-color: #020617; } /* slate-950 */
+
+
+        /* Custom styles for interactive elements */
+        .stat-box {
+            transition: all 0.3s ease;
+        }
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .stat-box-active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(22, 163, 74, 0.2);
+        }
+        
+        .theme-switch-wrapper .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
+        .theme-switch-wrapper .theme-switch input { display: none; }
+        .theme-switch-wrapper .slider { background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .theme-switch-wrapper .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 16px; left: 4px; position: absolute; transition: .4s; width: 16px; border-radius: 50%; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .content-blurred {
+            filter: blur(4px);
+            transform: scale(0.98);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased h-screen flex flex-col">
+    <div id="main-content" class="h-full flex flex-col">
+        <nav class="nav-blur shadow-sm sticky top-0 z-40">
+            <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center">
+                            <i class="fas fa-map-marked-alt brand-icon text-2xl mr-2"></i>
+                            <span class="logo-main-text text-xl font-bold">Land<span class="brand-text">Ledger</span><span class="text-green-400">+</span></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="theme-switch-wrapper flex items-center">
+                            <i class="fas fa-sun theme-icon text-secondary"></i>
+                            <label class="theme-switch mx-2">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                            <i class="fas fa-moon theme-icon text-secondary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="flex flex-1 overflow-hidden">
+            <aside class="hidden md:flex flex-col w-64 shadow-lg p-4 sidebar">
+                <div class="flex flex-col items-center py-6">
+                    <img src="https://ui-avatars.com/api/?name=User&background=16a34a&color=fff&size=128" alt="User Avatar" class="rounded-full shadow-lg mb-4 w-24 h-24 border-4 avatar-border">
+                    <h2 class="text-xl font-bold gradient-text mb-1 text-center">User Name</h2>
+                    <p class="text-secondary text-center text-sm mb-2">user@email.com</p>
+                    <span class="inline-block bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-300 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20">Verified</span>
+                </div>
+                <nav class="flex flex-col gap-2 mt-4 flex-grow">
+                    <a href="landrecords.html" class="sidebar-link text-secondary flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors"><i class="fas fa-landmark w-5 text-center"></i> Land Records</a>
+                    <a href="#" class="sidebar-link text-secondary flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors"><i class="fas fa-user-cog w-5 text-center"></i> Profile</a>
+                    <a href="login.html" class="sidebar-link text-secondary flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors mt-auto"><i class="fas fa-sign-out-alt w-5 text-center"></i> Logout</a>
+                </nav>
+            </aside>
+
+            <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4 animate-fade-in-up">
+                        <div>
+                            <h1 class="text-3xl lg:text-4xl font-extrabold gradient-text mb-2">Dashboard</h1>
+                            <p class="text-main">Manage, track, and verify your land assets.</p>
+                        </div>
+                        <a href="addland.html" class="main-button px-5 py-2.5 text-white rounded-lg font-semibold shadow-lg shadow-green-500/20 hover:opacity-90 transition-opacity duration-200 transform hover:scale-105 flex items-center gap-2">
+                            <i class="fas fa-plus-circle"></i> Add Land Record
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12" id="stat-boxes">
+                        <div class="stat-box card rounded-xl p-6 border-2 border-transparent flex items-center gap-5 animate-scale-in" style="--animation-delay: 100ms;" data-filter="verified">
+                            <i class="far fa-check-circle text-4xl text-green-500"></i>
+                            <div>
+                                <div class="text-3xl font-bold text-main">3</div>
+                                <div class="text-secondary">Verified Lands</div>
+                            </div>
+                        </div>
+                        <div class="stat-box card rounded-xl p-6 border-2 border-transparent flex items-center gap-5 animate-scale-in" style="--animation-delay: 200ms;" data-filter="pending">
+                            <i class="far fa-clock text-4xl text-yellow-500"></i>
+                            <div>
+                                <div class="text-3xl font-bold text-main">2</div>
+                                <div class="text-secondary">Pending Verification</div>
+                            </div>
+                        </div>
+                        <div class="stat-box card rounded-xl p-6 border-2 border-transparent flex items-center gap-5 animate-scale-in" style="--animation-delay: 300ms;" data-filter="notifications">
+                            <i class="far fa-bell text-4xl text-blue-500"></i>
+                            <div>
+                                <div class="text-3xl font-bold text-main">1</div>
+                                <div class="text-secondary">Notifications</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- AI Assistant Widget -->
+    <div id="ai-widget-container" class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 z-50">
+        <button id="ai-toggle-btn" class="main-button w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-110 transition-transform">
+            <i id="ai-toggle-icon" class="fas fa-robot text-2xl"></i>
+        </button>
+    </div>
+
+    <div id="ai-chat-container" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 hidden flex-col justify-end transition-opacity duration-300 opacity-0">
+        <div id="ai-chat-box" class="card w-full max-w-3xl mx-auto mb-24 rounded-t-xl flex flex-col h-2/3 transform translate-y-full transition-transform duration-300">
+             <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-robot text-green-400 text-xl"></i>
+                    <h3 class="text-lg font-bold text-main">AI Assistant</h3>
+                </div>
+                <button id="ai-close-btn" class="text-2xl text-secondary hover:text-main transition-colors">&times;</button>
+             </div>
+             <div id="chat-history" class="flex-1 p-6 space-y-4 overflow-y-auto">
+                <!-- Chat messages will appear here -->
+             </div>
+             <form id="ai-search-form" class="relative p-4 border-t border-gray-200 dark:border-gray-700">
+                <input type="text" id="ai-search-input" placeholder="Ask a question..." class="w-full pl-4 pr-14 py-3 border-2 rounded-xl transition-all duration-300 shadow-sm text-main text-placeholder ai-input focus:ring-2 focus:ring-green-500/50">
+                <button type="submit" class="absolute right-6 top-1/2 -translate-y-1/2 main-button text-white font-semibold w-10 h-10 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center">
+                   <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Modal for displaying lists -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4 animate-scale-in">
+        <div class="modal-content rounded-xl shadow-2xl w-full max-w-4xl max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
+                <h3 id="modal-title" class="text-xl font-bold text-main"></h3>
+                <button id="modal-close-btn" class="text-2xl text-main hover:text-black dark:hover:text-slate-200 transition-colors">&times;</button>
+            </div>
+            <div id="modal-list-container" class="p-6 space-y-4 overflow-y-auto">
+                <!-- Dynamic list content will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DARK MODE TOGGLE ---
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const htmlElement = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                htmlElement.setAttribute('data-theme', 'dark');
+                darkModeToggle.checked = true;
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+                darkModeToggle.checked = false;
+            }
+
+            darkModeToggle.addEventListener('change', function() {
+                const theme = this.checked ? 'dark' : 'light';
+                htmlElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            });
+
+            // --- DATA ---
+            const data = {
+                verified: [
+                    { id: 'LR001', location: 'Mumbai, Maharashtra', area: '2.5 Acres', date: '2025-06-15' },
+                    { id: 'LR003', location: 'Nagpur, Maharashtra', area: '5.0 Acres', date: '2025-05-20' },
+                    { id: 'LR006', location: 'Aurangabad, Maharashtra', area: '10.0 Acres', date: '2025-04-30' },
+                ],
+                pending: [
+                    { id: 'LR002', location: 'Pune, Maharashtra', area: '1.8 Acres', date: '2025-07-01' },
+                    { id: 'LR005', location: 'Thane, Maharashtra', area: '0.9 Acres', date: '2025-07-10' },
+                ],
+                notifications: [
+                    { id: 'N001', text: 'Your document for LR004 has been rejected. Please review the comments.', type: 'rejected', date: '2025-06-25' },
+                ]
+            };
+
+            const statusConfig = {
+                verified: { icon: 'far fa-check-circle', color: 'green', text: 'Verified Lands' },
+                pending: { icon: 'far fa-clock', color: 'yellow', text: 'Pending Verifications' },
+                rejected: { icon: 'far fa-times-circle', color: 'red', text: 'Rejected' },
+                notifications: { icon: 'far fa-bell', color: 'blue', text: 'Notifications' }
+            };
+
+            // --- MODAL LOGIC ---
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const modalListContainer = document.getElementById('modal-list-container');
+            const modalTitle = document.getElementById('modal-title');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+
+            function showModal() {
+                modalBackdrop.classList.remove('hidden');
+                modalBackdrop.classList.add('flex');
+            }
+
+            function hideModal() {
+                modalBackdrop.classList.add('hidden');
+                modalBackdrop.classList.remove('flex');
+                statBoxesContainer.querySelectorAll('.stat-box').forEach(box => box.classList.remove('stat-box-active'));
+                activeFilter = null;
+            }
+
+            modalCloseBtn.addEventListener('click', hideModal);
+            modalBackdrop.addEventListener('click', function(e) {
+                if (e.target === modalBackdrop) {
+                    hideModal();
+                }
+            });
+
+            // --- GEMINI API CALL HELPER ---
+            let chatHistory = [];
+            async function callGeminiAPI(prompt) {
+                const apiKey = ""; // Leave empty for automatic handling
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const modelResponse = result.candidates[0].content.parts[0].text;
+                        chatHistory.push({ role: "model", parts: [{ text: modelResponse }] });
+                        return modelResponse;
+                    } else {
+                        return "Sorry, I couldn't get a response from the AI.";
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    return "An error occurred while contacting the AI assistant.";
+                }
+            }
+
+
+            function renderContent(filter, content) {
+                modalListContainer.innerHTML = '';
+                modalTitle.textContent = statusConfig[filter] ? statusConfig[filter].text : "AI Assistant Response";
+                const items = content || data[filter] || [];
+                
+                if (items.length === 0) {
+                    modalListContainer.innerHTML = `<div class="text-center p-8 rounded-xl animate-scale-in"><i class="fas fa-folder-open text-4xl text-slate-400 mb-4"></i><p class="text-secondary">No items found.</p></div>`;
+                    return;
+                }
+                
+                items.forEach((item, index) => {
+                    const recordElement = document.createElement('div');
+                    recordElement.className = `card rounded-xl p-4 flex items-center justify-between animate-fade-in-up`;
+                    recordElement.style.setProperty('--animation-delay', `${index * 100}ms`);
+                    
+                    if (filter === 'notifications') {
+                        const config = statusConfig.rejected;
+                        recordElement.classList.add(`border-l-4`, `border-red-500`);
+                        recordElement.innerHTML = `<div class="flex items-center gap-4"><i class="fas ${config.icon} text-2xl text-${config.color}-500"></i><div><div class="font-semibold text-main">${item.text}</div><div class="text-xs text-secondary">Date: ${item.date}</div></div></div>`;
+                    } else {
+                        const config = statusConfig[filter];
+                        recordElement.classList.add(`border-l-4`, `border-${config.color}-500`);
+                        recordElement.innerHTML = `<div class="flex items-center gap-4"><i class="fas ${config.icon} text-2xl text-${config.color}-500"></i><div><div class="font-bold text-main">${item.location}</div><div class="text-sm text-secondary">ID: ${item.id} • ${item.area}</div></div></div><div class="text-right"><div class="text-sm font-semibold text-${config.color}-600 dark:text-${config.color}-400">${statusConfig[filter].text.slice(0,-1)}</div><div class="text-xs text-secondary">Updated: ${item.date}</div></div>`;
+                    }
+                    modalListContainer.appendChild(recordElement);
+                });
+            }
+
+            // --- STAT BOX FILTERING LOGIC ---
+            const statBoxesContainer = document.getElementById('stat-boxes');
+            let activeFilter = null;
+
+            statBoxesContainer.addEventListener('click', function(e) {
+                const statBox = e.target.closest('.stat-box');
+                if (!statBox) return;
+                const filter = statBox.dataset.filter;
+
+                if (activeFilter === filter) {
+                    activeFilter = null;
+                    statBox.classList.remove('stat-box-active');
+                    hideModal();
+                } else {
+                    activeFilter = filter;
+                    statBoxesContainer.querySelectorAll('.stat-box').forEach(box => box.classList.remove('stat-box-active'));
+                    statBox.classList.add('stat-box-active');
+                    renderContent(filter);
+                    showModal();
+                }
+            });
+
+            // --- AI CHAT WIDGET LOGIC ---
+            const mainContent = document.getElementById('main-content');
+            const aiChatContainer = document.getElementById('ai-chat-container');
+            const aiChatBox = document.getElementById('ai-chat-box');
+            const aiSearchForm = document.getElementById('ai-search-form');
+            const aiSearchInput = document.getElementById('ai-search-input');
+            const aiToggleBtn = document.getElementById('ai-toggle-btn');
+            const aiToggleIcon = document.getElementById('ai-toggle-icon');
+            const aiCloseBtn = document.getElementById('ai-close-btn');
+            const chatHistoryContainer = document.getElementById('chat-history');
+
+            function showAiChat() {
+                aiChatContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    aiChatContainer.style.opacity = '1';
+                    aiChatBox.classList.remove('translate-y-full');
+                    mainContent.classList.add('content-blurred');
+                    aiToggleIcon.classList.remove('fa-robot');
+                    aiToggleIcon.classList.add('fa-times');
+                    aiSearchInput.focus();
+                }, 10);
+            }
+
+            function hideAiChat() {
+                aiChatBox.classList.add('translate-y-full');
+                mainContent.classList.remove('content-blurred');
+                aiToggleIcon.classList.add('fa-robot');
+                aiToggleIcon.classList.remove('fa-times');
+                setTimeout(() => {
+                    aiChatContainer.classList.add('hidden');
+                    aiChatContainer.style.opacity = '0';
+                }, 300);
+            }
+
+            aiToggleBtn.addEventListener('click', () => {
+                if (aiChatContainer.classList.contains('hidden')) {
+                    showAiChat();
+                } else {
+                    hideAiChat();
+                }
+            });
+            
+            aiCloseBtn.addEventListener('click', hideAiChat);
+            
+            aiChatContainer.addEventListener('click', (e) => {
+                if (e.target === aiChatContainer) {
+                    hideAiChat();
+                }
+            });
+
+            aiSearchForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const query = aiSearchInput.value.trim();
+                if (!query) return;
+
+                appendChatMessage(query, 'user');
+                aiSearchInput.value = '';
+                appendChatMessage('<div class="flex items-center gap-2"><div class="typing-indicator"><span></span><span></span><span></span></div></div>', 'model');
+
+                const allRecords = [...data.verified, ...data.pending, ...data.notifications];
+                const prompt = `Based on the following user data, answer the query. User Data: ${JSON.stringify(allRecords)}. User Query: "${query}"`;
+                
+                const response = await callGeminiAPI(prompt);
+                updateLastChatMessage(response);
+            });
+            
+            function appendChatMessage(message, role) {
+                const messageDiv = document.createElement('div');
+                const avatar = role === 'user' ? `<div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-sm">U</div>` : `<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center"><i class="fas fa-robot text-green-400"></i></div>`;
+                messageDiv.className = `flex items-start gap-3 ${role === 'user' ? 'justify-end' : ''}`;
+                messageDiv.innerHTML = `
+                    ${role === 'model' ? avatar : ''}
+                    <div class="max-w-md rounded-lg px-4 py-2 ${role === 'user' ? 'bg-green-500 text-white rounded-br-none' : 'card rounded-bl-none'}">${message}</div>
+                    ${role === 'user' ? avatar : ''}
+                `;
+                chatHistoryContainer.appendChild(messageDiv);
+                chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+            }
+            
+            function updateLastChatMessage(message) {
+                const lastMessage = chatHistoryContainer.lastElementChild.querySelector('.card, .bg-green-500');
+                lastMessage.innerHTML = message.replace(/\n/g, '<br>');
+            }
+            
+            // Initial Welcome Message
+            appendChatMessage("Hello! How can I help you with your land records today?", "model");
+            
+            // Close with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === "Escape" && !aiChatContainer.classList.contains('hidden')) {
+                    hideAiChat();
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
