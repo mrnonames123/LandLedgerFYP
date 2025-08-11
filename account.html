@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandLedger+ Pro - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOutDown { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(20px); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes typing-dot { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; animation-delay: var(--animation-delay, 0s); opacity: 0; }
+        .animate-scale-in { animation: scaleIn 0.4s ease-out forwards; animation-delay: var(--animation-delay, 0s); opacity: 0; }
+        
+        .toast { animation: fadeInUp 0.3s ease-out forwards; }
+        .toast.hiding { animation: fadeOutDown 0.3s ease-in forwards; }
+
+        .typing-indicator span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: currentColor; margin: 0 1px; animation: typing-dot 1.2s infinite ease-in-out; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        .gradient-text { background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; background-image: linear-gradient(90deg, #16a34a, #22c55e); }
+
+        body, .card, .sidebar, .nav-blur, .modal-content, .theme-icon, #main-content, #ai-chat-container, .activity-item, select, .news-card, .form-input, .toggle-switch .slider { transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out; }
+        
+        html[data-theme="light"] .text-main { color: #1e293b; }
+        html[data-theme="light"] .text-secondary { color: #475569; }
+        html[data-theme="light"] body { background-color: #f1f5f9; }
+        html[data-theme="light"] .card { background-color: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); }
+        html[data-theme="light"] .brand-icon, html[data-theme="light"] .brand-text { color: #16a34a; }
+        html[data-theme="light"] .logo-main-text { color: #000000; }
+        html[data-theme="light"] .nav-blur { background-color: rgba(241, 245, 249, 0.8); backdrop-filter: blur(8px); }
+        html[data-theme="light"] .sidebar { background: #ffffff; }
+        html[data-theme="light"] .sidebar-link:hover { background-color: #f1f5f9; color: #1e293b; transform: translateX(3px); }
+        html[data-theme="light"] .sidebar-link-active { background-color: #dcfce7; color: #16a34a; font-weight: 600; }
+        html[data-theme="light"] .stat-box-active { background-color: #f0fdf4; border-color: #16a34a; }
+        html[data-theme="light"] .main-button { background-image: linear-gradient(to right, #16a34a, #22c55e); }
+        html[data-theme="light"] .avatar-border { border-color: #16a34a; }
+        html[data-theme="light"] .ai-input, html[data-theme="light"] .form-input { background-color: #f8fafc; border-color: #e2e8f0; }
+        html[data-theme="light"] .form-input:hover { border-color: #cbd5e1; }
+        html[data-theme="light"] .modal-content { background-color: #f8fafc; }
+        html[data-theme="light"] .activity-item { background-color: #ffffff; border-left: 4px solid transparent; }
+        html[data-theme="light"] .activity-item:hover { transform: translateX(5px) scale(1.02); box-shadow: 0 6px 12px rgba(0,0,0,0.07); background-color: #ecfdf5; }
+        html[data-theme="light"] .news-card { background-color: #f8fafc; border: 1px solid #e2e8f0; }
+        html[data-theme="light"] .news-card:hover { border-color: #16a34a; box-shadow: 0 4px 10px rgba(22, 163, 74, 0.1); transform: translateY(-3px); }
+        html[data-theme="light"] select { background-color: #fff; border-color: #cbd5e1; color: #1e293b; }
+        html[data-theme="light"] select:hover { border-color: #94a3b8; }
+        html[data-theme="light"] hr { border-color: #e2e8f0; }
+        html[data-theme="light"] .stat-box:hover { background-color: #f0fdf4; box-shadow: 0 10px 20px rgba(22, 163, 74, 0.1); }
+
+
+        html[data-theme="dark"] .text-main { color: #e2e8f0; }
+        html[data-theme="dark"] .text-secondary { color: #94a3b8; }
+        html[data-theme="dark"] body { background-color: #0b1120; color: #cbd5e1; }
+        html[data-theme="dark"] .card { background-color: #1e293b; border-color: #334155; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2); }
+        html[data-theme="dark"] .sidebar { background: #1e293b; }
+        html[data-theme="dark"] .sidebar-link:hover { background-color: #334155; color: #ffffff; transform: translateX(3px); }
+        html[data-theme="dark"] .nav-blur { background-color: rgba(11, 17, 32, 0.8); backdrop-filter: blur(8px); }
+        html[data-theme="dark"] .sidebar-link-active { background-color: #1e3a8a; color: #93c5fd; font-weight: 600; }
+        html[data-theme="dark"] .brand-icon, html[data-theme="dark"] .brand-text { color: #22c55e; }
+        html[data-theme="dark"] .logo-main-text { color: #e2e8f0; }
+        html[data-theme="dark"] .stat-box-active { background-color: #111827; border-color: #22c55e; }
+        html[data-theme="dark"] .avatar-border { border-color: #22c55e; }
+        html[data-theme="dark"] .ai-input, html[data-theme="dark"] .form-input { background-color: #0f172a; border-color: #334155; }
+        html[data-theme="dark"] .form-input:hover { border-color: #475569; }
+        html[data-theme="dark"] .main-button { background-image: linear-gradient(to right, #16a34a, #22c55e); box-shadow: 0 0 15px rgba(34, 197, 94, 0.5); }
+        html[data-theme="dark"] .modal-content { background-color: #0b1120; }
+        html[data-theme="dark"] .activity-item { background-color: #1e293b; border-left: 4px solid transparent; }
+        html[data-theme="dark"] .activity-item:hover { transform: translateX(5px) scale(1.02); box-shadow: 0 6px 12px rgba(0,0,0,0.15); background-color: rgba(34, 197, 94, 0.1); }
+        html[data-theme="dark"] .news-card { background-color: #1e293b; border: 1px solid #334155; }
+        html[data-theme="dark"] .news-card:hover { border-color: #22c55e; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.2); transform: translateY(-3px); }
+        html[data-theme="dark"] select { background-color: #1e293b; border-color: #334155; color: #e2e8f0; }
+        html[data-theme="dark"] select:hover { border-color: #475569; }
+        html[data-theme="dark"] hr { border-color: #334155; }
+        html[data-theme="dark"] .stat-box:hover { background-color: rgba(34, 197, 94, 0.1); box-shadow: 0 10px 20px rgba(34, 197, 94, 0.2); }
+
+        .stat-box { transition: all 0.3s ease; }
+        .stat-box:hover { transform: translateY(-6px) scale(1.04); }
+        .stat-box-active { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(22, 163, 74, 0.2); }
+        
+        .theme-switch-wrapper .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
+        .theme-switch-wrapper .theme-switch input { display: none; }
+        .theme-switch-wrapper .slider { background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .theme-switch-wrapper .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 16px; left: 4px; position: absolute; transition: .4s; width: 16px; border-radius: 50%; }
+        input:checked + .slider { background-color: #16a34a; }
+        html[data-theme="dark"] input:checked + .slider { background-color: #22c55e; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .content-blurred { filter: blur(4px); transform: scale(0.98); pointer-events: none; transition: all 0.3s ease-out; }
+        
+        .news-card { transition: all 0.2s ease-out; }
+        .news-card .external-link-icon { opacity: 0; transition: opacity 0.2s ease-out; transform: translate(0, 0); }
+        .news-card:hover .external-link-icon { opacity: 1; transform: translate(2px, -2px); }
+
+        .form-input:focus { ring: 2px; ring-color: #16a34a; border-color: #16a34a; }
+
+        .toggle-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
+        .toggle-switch input { display: none; }
+        .toggle-switch .slider { background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .toggle-switch .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 16px; left: 4px; position: absolute; transition: .4s; width: 16px; border-radius: 50%; }
+        .toggle-switch input:checked + .slider { background-color: #16a34a; }
+        html[data-theme="dark"] .toggle-switch input:checked + .slider { background-color: #22c55e; }
+        .toggle-switch input:checked + .slider:before { transform: translateX(24px); }
+        .toggle-switch .slider:hover { box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+
+
+    </style>
+</head>
+<body class="font-sans antialiased h-screen flex flex-col">
+    <div id="main-content" class="h-full flex flex-col">
+        <nav class="nav-blur shadow-sm sticky top-0 z-40 border-b border-slate-200/50 dark:border-slate-800/50">
+            <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center">
+                            <i class="fas fa-map-location-dot brand-icon text-2xl mr-2"></i>
+                            <span class="logo-main-text text-xl font-bold">Land<span class="brand-text">Ledger</span><span class="text-green-400 font-black">+</span></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="theme-switch-wrapper flex items-center">
+                            <i class="fas fa-sun theme-icon text-secondary"></i>
+                            <label class="theme-switch mx-2">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                            <i class="fas fa-moon theme-icon text-secondary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="flex flex-1 overflow-hidden">
+            <aside class="hidden md:flex flex-col w-64 p-4 sidebar border-r border-slate-200/80 dark:border-slate-800/50">
+                <div class="flex flex-col items-center py-6">
+                    <img id="sidebar-avatar" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar" class="rounded-full shadow-lg mb-4 w-24 h-24 border-4 avatar-border">
+                    <h2 class="profile-name text-xl font-bold gradient-text mb-1 text-center">Alex Thompson</h2>
+                    <p class="text-secondary text-center text-sm mb-2">alex.t@example.com</p>
+                    <span class="inline-block bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-300 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20">Verified</span>
+                </div>
+                <nav id="sidebar-nav" class="flex flex-col gap-2 mt-4 flex-grow">
+                    <a href="#" data-page="dashboard" class="sidebar-link sidebar-link-active text-secondary flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors"><i class="fas fa-tachometer-alt w-5 text-center"></i> Dashboard</a>
+                    <a href="landrecords.html" class="sidebar-link text-secondary flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors"><i class="fas fa-landmark w-5 text-center"></i> Land Records</a>
+                    <a href="#" data-page="profile" class="sidebar-link text-secondary flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors"><i class="fas fa-user-cog w-5 text-center"></i> Profile</a>
+                    <a href="#" class="sidebar-link text-secondary flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors mt-auto"><i class="fas fa-sign-out-alt w-5 text-center"></i> Logout</a>
+                </nav>
+            </aside>
+
+            <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+                <!-- Dashboard Page -->
+                <div id="dashboard-page" class="page max-w-7xl mx-auto">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4 animate-fade-in-up">
+                        <div>
+                            <h1 class="text-3xl lg:text-4xl font-extrabold gradient-text mb-2">Dashboard</h1>
+                            <p class="text-main">An overview of your land asset portfolio.</p>
+                        </div>
+                        <a href="#" class="main-button px-5 py-2.5 text-white rounded-lg font-semibold shadow-lg shadow-green-500/20 hover:opacity-90 transition-all duration-200 transform hover:scale-105 flex items-center gap-2">
+                            <i class="fas fa-plus-circle"></i> Add New Land
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                        <div class="stat-box group card rounded-xl p-6 flex items-center gap-5 animate-scale-in" style="--animation-delay: 100ms;" data-filter="all">
+                            <i class="fas fa-layer-group text-4xl text-indigo-500 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"></i>
+                            <div>
+                                <div id="total-count" class="text-3xl font-bold text-main">0</div>
+                                <div class="text-secondary">Total Lands</div>
+                            </div>
+                        </div>
+                        <div class="stat-box group card rounded-xl p-6 flex items-center gap-5 animate-scale-in" style="--animation-delay: 200ms;" data-filter="verified">
+                            <i class="fas fa-check-circle text-4xl text-green-500 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"></i>
+                            <div>
+                                <div id="verified-count" class="text-3xl font-bold text-main">0</div>
+                                <div class="text-secondary">Verified</div>
+                            </div>
+                        </div>
+                        <div class="stat-box group card rounded-xl p-6 flex items-center gap-5 animate-scale-in" style="--animation-delay: 300ms;" data-filter="pending">
+                            <i class="fas fa-clock text-4xl text-yellow-500 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"></i>
+                            <div>
+                                <div id="pending-count" class="text-3xl font-bold text-main">0</div>
+                                <div class="text-secondary">Pending</div>
+                            </div>
+                        </div>
+                        <div class="stat-box group card rounded-xl p-6 flex items-center gap-5 animate-scale-in" style="--animation-delay: 400ms;" data-filter="rejected">
+                            <i class="fas fa-times-circle text-4xl text-red-500 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"></i>
+                            <div>
+                                <div id="rejected-count" class="text-3xl font-bold text-main">0</div>
+                                <div class="text-secondary">Rejected</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 card p-6 rounded-xl animate-fade-in-up" style="--animation-delay: 500ms;">
+                            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                                <h2 class="text-xl font-bold text-main">Activity Feed</h2>
+                                <div class="flex items-center gap-2">
+                                    <select id="filter-status" class="rounded-md border-2 border-transparent px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                        <option value="all">All Statuses</option>
+                                        <option value="verified">Verified</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                    <select id="sort-date" class="rounded-md border-2 border-transparent px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                        <option value="newest">Newest First</option>
+                                        <option value="oldest">Oldest First</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="activity-list" class="space-y-3 pr-2 -mr-2 max-h-[520px] overflow-y-auto"></div>
+                        </div>
+
+                        <div class="card p-6 rounded-xl animate-fade-in-up flex flex-col" style="--animation-delay: 600ms;">
+                            <h2 class="text-xl font-bold text-main mb-4 flex items-center gap-2"><i class="fa-solid fa-newspaper text-green-500"></i> Latest Land-Related News</h2>
+                            <div id="news-feed-list" class="flex-grow space-y-3 overflow-y-auto pr-2 -mr-2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="land-records-page" class="page hidden"></div>
+
+                <!-- Profile Page -->
+                <div id="profile-page" class="page hidden max-w-5xl mx-auto">
+                    <h1 class="text-3xl lg:text-4xl font-extrabold gradient-text mb-10 animate-fade-in-up">Profile & Settings</h1>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Left Column: Profile Card -->
+                        <div class="lg:col-span-1 animate-fade-in-up" style="--animation-delay: 100ms;">
+                            <div class="card p-6 rounded-xl text-center">
+                                <img id="profile-avatar" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar" class="rounded-full shadow-lg w-32 h-32 border-4 avatar-border mx-auto">
+                                <h2 class="profile-name text-2xl font-bold text-main mt-4">Alex Thompson</h2>
+                                <p class="text-secondary">alex.t@example.com</p>
+                                <span class="mt-2 inline-block bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-300 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20">Verified Account</span>
+                                <input type="file" id="avatar-upload" class="hidden" accept="image/*">
+                                <button id="upload-avatar-btn" class="mt-4 w-full text-sm text-green-600 dark:text-green-400 hover:underline font-semibold bg-green-50 dark:bg-green-500/10 py-2 rounded-lg">Upload new photo</button>
+                            </div>
+                        </div>
+                        <!-- Right Column: Settings -->
+                        <div class="lg:col-span-2 space-y-8">
+                            <div class="card p-6 rounded-xl animate-fade-in-up" style="--animation-delay: 200ms;">
+                                <h3 class="text-xl font-bold text-main mb-1">Personal Information</h3>
+                                <p class="text-secondary text-sm mb-6">Update your personal details here.</p>
+                                <hr class="mb-6">
+                                <form id="profile-form" class="space-y-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="fullName" class="block text-sm font-medium text-secondary mb-1">Full Name</label>
+                                            <div class="relative mt-1">
+                                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                                    <i class="fa-solid fa-user text-secondary w-5"></i>
+                                                </div>
+                                                <input type="text" id="fullName" value="Alex Thompson" class="form-input pl-10 block w-full rounded-lg shadow-sm">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="email" class="block text-sm font-medium text-secondary mb-1">Email Address</label>
+                                            <div class="relative mt-1">
+                                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                                    <i class="fa-solid fa-envelope text-secondary w-5"></i>
+                                                </div>
+                                                <input type="email" id="email" value="alex.t@example.com" class="form-input pl-10 block w-full rounded-lg shadow-sm bg-gray-100 dark:bg-gray-800/50" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="phone" class="block text-sm font-medium text-secondary mb-1">Phone Number</label>
+                                        <div class="relative mt-1">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                                <i class="fa-solid fa-phone text-secondary w-5"></i>
+                                            </div>
+                                            <input type="tel" id="phone" value="+1 (555) 123-4567" class="form-input pl-10 block w-full rounded-lg shadow-sm">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="card p-6 rounded-xl animate-fade-in-up" style="--animation-delay: 300ms;">
+                                <h3 class="text-xl font-bold text-main mb-1">Notifications</h3>
+                                <p class="text-secondary text-sm mb-6">Manage how you receive notifications.</p>
+                                <hr class="mb-6">
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h4 class="font-medium text-main">Email Notifications</h4>
+                                            <p class="text-sm text-secondary">Get emails about your account, new features, and updates.</p>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <hr>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h4 class="font-medium text-main">Push Notifications</h4>
+                                            <p class="text-sm text-secondary">Receive real-time alerts on your devices.</p>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end pt-4 animate-fade-in-up" style="--animation-delay: 400ms;">
+                                <button id="save-changes-btn" type="submit" class="main-button px-8 py-3 text-white rounded-lg font-semibold shadow-lg shadow-green-500/20 hover:opacity-90 transition-all duration-200 transform hover:scale-105">Save All Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <div id="ai-widget-container" class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 z-50">
+        <button id="ai-toggle-btn" class="main-button w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-110 transition-transform">
+            <i id="ai-toggle-icon" class="fas fa-robot text-2xl"></i>
+        </button>
+    </div>
+
+    <div id="ai-chat-container" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 hidden flex-col justify-end transition-opacity duration-300 opacity-0">
+        <div id="ai-chat-box" class="card w-full max-w-3xl mx-auto mb-24 rounded-t-xl flex flex-col h-2/3 transform translate-y-full transition-transform duration-300">
+             <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                 <div class="flex items-center gap-3">
+                     <i class="fas fa-robot text-green-400 text-xl"></i>
+                     <h3 class="text-lg font-bold text-main">AI Assistant</h3>
+                 </div>
+                 <button id="ai-close-btn" class="text-2xl text-secondary hover:text-main transition-colors">&times;</button>
+             </div>
+             <div id="chat-history" class="flex-1 p-6 space-y-4 overflow-y-auto">
+                <!-- Chat messages will appear here -->
+             </div>
+             <form id="ai-search-form" class="relative p-4 border-t border-gray-200 dark:border-gray-700">
+                 <input type="text" id="ai-search-input" placeholder="Ask a question..." class="w-full pl-4 pr-14 py-3 border-2 rounded-xl transition-all duration-300 shadow-sm text-main text-placeholder ai-input focus:ring-2 focus:ring-green-500/50">
+                 <button type="submit" class="absolute right-6 top-1/2 -translate-y-1/2 main-button text-white font-semibold w-10 h-10 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center">
+                     <i class="fa-solid fa-paper-plane"></i>
+                 </button>
+             </form>
+        </div>
+    </div>
+    
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- THEME SWITCHER ---
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const htmlElement = document.documentElement;
+            
+            function applyTheme(theme) {
+                htmlElement.setAttribute('data-theme', theme);
+                darkModeToggle.checked = theme === 'dark';
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+            darkModeToggle.addEventListener('change', function() {
+                const theme = this.checked ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                applyTheme(theme);
+            });
+
+            // --- PAGE NAVIGATION ---
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const pages = document.querySelectorAll('.page');
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+            sidebarNav.addEventListener('click', (e) => {
+                const link = e.target.closest('.sidebar-link');
+                if (!link || !link.dataset.page) return;
+
+                e.preventDefault();
+                const pageId = link.dataset.page + '-page';
+                
+                if(!document.getElementById(pageId)) return;
+
+                pages.forEach(page => {
+                    page.classList.add('hidden');
+                });
+
+                const activePage = document.getElementById(pageId);
+                if (activePage) {
+                    activePage.classList.remove('hidden');
+                }
+
+                sidebarLinks.forEach(l => l.classList.remove('sidebar-link-active'));
+                link.classList.add('sidebar-link-active');
+            });
+
+
+            // --- DATA & RENDERING ---
+            const masterActivityData = [
+                { id: 'LR001', location: 'Mumbai, Maharashtra', area: '2.5 Acres', dateAdded: '2025-06-10', status: 'verified', statusDate: '2025-06-15' },
+                { id: 'LR002', location: 'Pune, Maharashtra', area: '1.8 Acres', dateAdded: '2025-06-20', status: 'pending', statusDate: '2025-07-01' },
+                { id: 'LR003', location: 'Nagpur, Maharashtra', area: '5.0 Acres', dateAdded: '2025-05-15', status: 'verified', statusDate: '2025-05-20' },
+                { id: 'LR004', location: 'Nashik, Maharashtra', area: '3.0 Acres', dateAdded: '2025-06-22', status: 'rejected', statusDate: '2025-06-25' },
+                { id: 'LR005', location: 'Thane, Maharashtra', area: '0.9 Acres', dateAdded: '2025-07-05', status: 'pending', statusDate: '2025-07-10' },
+                { id: 'LR006', location: 'Aurangabad, Maharashtra', area: '10.0 Acres', dateAdded: '2025-04-20', status: 'verified', statusDate: '2025-04-30' },
+                { id: 'LR007', location: 'Solapur, Maharashtra', area: '7.2 Acres', dateAdded: '2025-07-12', status: 'pending', statusDate: '2025-07-18' },
+                { id: 'LR008', location: 'Bandra, Mumbai', area: '0.5 Acres', dateAdded: '2025-07-15', status: 'rejected', statusDate: '2025-07-20' },
+            ];
+
+            const statusConfig = {
+                verified: { icon: 'fa-check-circle', color: 'green', text: 'Verified', badge: 'bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400' },
+                pending: { icon: 'fa-clock', color: 'yellow', text: 'Pending', badge: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400' },
+                rejected: { icon: 'fa-times-circle', color: 'red', text: 'Rejected', badge: 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400' },
+            };
+            
+            const latestNewsData = [
+                { headline: "Maharashtra CEO to head Centre's panel for 'land stack' pilot", source: "Times of India", date: "Aug 04, 2025", url: "#" },
+                { headline: "Real estate sentiment improves in Q2 2025 on strong demand", source: "Economic Times", date: "Jul 30, 2025", url: "#" },
+                { headline: "Maharashtra to legalize subdivided land parcels by 2025", source: "RealtyNXT", date: "Jul 10, 2025", url: "#" },
+                { headline: "Mumbai real estate market maintains momentum in July 2025", source: "Construction & Arch.", date: "Aug 01, 2025", url: "#" },
+                { headline: "99.79% of existing land records digitised in India, says Minister", source: "IANS LIVE", date: "Aug 02, 2025", url: "#" }
+            ];
+
+            const filterStatusEl = document.getElementById('filter-status');
+            const sortDateEl = document.getElementById('sort-date');
+            
+            function renderActivityList() {
+                const activityListContainer = document.getElementById('activity-list');
+                if (!activityListContainer) return;
+                activityListContainer.innerHTML = '';
+                
+                const filterValue = filterStatusEl.value;
+                const sortValue = sortDateEl.value;
+
+                let filteredData = masterActivityData;
+                if (filterValue !== 'all') {
+                    filteredData = masterActivityData.filter(item => item.status === filterValue);
+                }
+
+                filteredData.sort((a, b) => {
+                    const dateA = new Date(a.dateAdded);
+                    const dateB = new Date(b.dateAdded);
+                    return sortValue === 'newest' ? dateB - dateA : dateA - dateB;
+                });
+
+                if (filteredData.length === 0) {
+                    activityListContainer.innerHTML = `<div class="text-center text-secondary p-8">No activities match the current filters.</div>`;
+                    return;
+                }
+
+                filteredData.forEach(item => {
+                    const config = statusConfig[item.status];
+                    const activityElement = document.createElement('div');
+                    activityElement.className = `activity-item rounded-lg p-3 flex items-center justify-between transition-all duration-200 cursor-pointer border-l-4 border-${config.color}-500`;
+                    activityElement.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-${config.color}-100 dark:bg-${config.color}-500/10">
+                                <i class="fas ${config.icon} text-xl text-${config.color}-500"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-main">${item.location}</div>
+                                <div class="text-sm text-secondary">Added on: ${item.dateAdded}</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full ${config.badge}">${config.text}</span>
+                            <div class="text-xs text-secondary mt-1">ID: ${item.id}</div>
+                        </div>
+                    `;
+                    activityListContainer.appendChild(activityElement);
+                });
+            }
+
+            function updateStats() {
+                const total = masterActivityData.length;
+                const verified = masterActivityData.filter(i => i.status === 'verified').length;
+                const pending = masterActivityData.filter(i => i.status === 'pending').length;
+                const rejected = masterActivityData.filter(i => i.status === 'rejected').length;
+
+                document.getElementById('total-count').textContent = total;
+                document.getElementById('verified-count').textContent = verified;
+                document.getElementById('pending-count').textContent = pending;
+                document.getElementById('rejected-count').textContent = rejected;
+            }
+            
+            function renderNewsFeed() {
+                const newsFeedContainer = document.getElementById('news-feed-list');
+                if (!newsFeedContainer) return;
+                newsFeedContainer.innerHTML = '';
+                latestNewsData.forEach(news => {
+                    const newsElement = document.createElement('a');
+                    newsElement.href = news.url;
+                    newsElement.target = '_blank';
+                    newsElement.rel = 'noopener noreferrer';
+                    newsElement.className = 'news-card block p-4 rounded-lg';
+                    newsElement.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-semibold text-main mb-1 leading-tight pr-4">${news.headline}</h4>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-secondary text-xs external-link-icon"></i>
+                        </div>
+                        <div class="flex justify-between items-center text-xs text-secondary mt-2">
+                            <span>${news.source}</span>
+                            <span>${news.date}</span>
+                        </div>
+                    `;
+                    newsFeedContainer.appendChild(newsElement);
+                });
+            }
+
+            if(filterStatusEl) filterStatusEl.addEventListener('change', renderActivityList);
+            if(sortDateEl) sortDateEl.addEventListener('change', renderActivityList);
+
+            document.querySelectorAll('.stat-box').forEach(box => {
+                box.addEventListener('click', () => {
+                    const filter = box.dataset.filter;
+                    if(filterStatusEl) {
+                       filterStatusEl.value = filter;
+                       renderActivityList();
+                    }
+                });
+            });
+
+            // --- PROFILE SETTINGS ---
+            const saveChangesBtn = document.getElementById('save-changes-btn');
+            const fullNameInput = document.getElementById('fullName');
+            const nameDisplays = document.querySelectorAll('.profile-name');
+            const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
+            const avatarUploadInput = document.getElementById('avatar-upload');
+            const profileAvatar = document.getElementById('profile-avatar');
+            const sidebarAvatar = document.getElementById('sidebar-avatar');
+
+            if (saveChangesBtn) {
+                saveChangesBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const newName = fullNameInput.value;
+                    nameDisplays.forEach(el => el.textContent = newName);
+                    showToast('Profile updated successfully!');
+                });
+            }
+            
+            if(uploadAvatarBtn) {
+                uploadAvatarBtn.addEventListener('click', () => {
+                    avatarUploadInput.click();
+                });
+            }
+
+            if(avatarUploadInput) {
+                avatarUploadInput.addEventListener('change', (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            profileAvatar.src = e.target.result;
+                            sidebarAvatar.src = e.target.result;
+                            showToast('Profile picture updated!');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+
+            function showToast(message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg';
+                toast.textContent = message;
+                container.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.classList.add('hiding');
+                    toast.addEventListener('animationend', () => {
+                        toast.remove();
+                    });
+                }, 3000);
+            }
+
+            // --- AI Chat Logic ---
+            const aiToggleBtn = document.getElementById('ai-toggle-btn');
+            const aiChatContainer = document.getElementById('ai-chat-container');
+            const aiChatBox = document.getElementById('ai-chat-box');
+            const aiCloseBtn = document.getElementById('ai-close-btn');
+            const mainContent = document.getElementById('main-content');
+            const aiSearchForm = document.getElementById('ai-search-form');
+            const aiSearchInput = document.getElementById('ai-search-input');
+            const chatHistory = document.getElementById('chat-history');
+
+            function openChat() {
+                aiChatContainer.classList.remove('hidden');
+                mainContent.classList.add('content-blurred');
+                aiToggleBtn.parentElement.style.display = 'none';
+                setTimeout(() => {
+                    aiChatContainer.classList.remove('opacity-0');
+                    aiChatBox.classList.remove('translate-y-full');
+                }, 10);
+                aiSearchInput.focus();
+            }
+
+            function closeChat() {
+                aiChatContainer.classList.add('opacity-0');
+                aiChatBox.classList.add('translate-y-full');
+                mainContent.classList.remove('content-blurred');
+                setTimeout(() => {
+                    aiChatContainer.classList.add('hidden');
+                    aiToggleBtn.parentElement.style.display = 'block';
+                }, 300);
+            }
+
+            aiToggleBtn.addEventListener('click', openChat);
+            aiCloseBtn.addEventListener('click', closeChat);
+            aiChatContainer.addEventListener('click', (e) => {
+                if (e.target === aiChatContainer) closeChat();
+            });
+
+            function appendMessage(message, sender) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('flex', 'gap-3', 'my-2', 'animate-fade-in-up');
+                
+                let content = '';
+                if (sender === 'user') {
+                    messageElement.classList.add('justify-end');
+                    content = `
+                        <div class="max-w-xs lg:max-w-md">
+                            <div class="bg-green-500 text-white p-3 rounded-xl rounded-br-lg">
+                                <p class="text-sm">${message}</p>
+                            </div>
+                        </div>
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" class="w-8 h-8 rounded-full flex-shrink-0" alt="User Avatar">
+                    `;
+                } else {
+                    messageElement.classList.add('justify-start');
+                    content = `
+                        <div class="w-8 h-8 rounded-full flex-shrink-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                            <i class="fas fa-robot text-green-500"></i>
+                        </div>
+                        <div class="max-w-xs lg:max-w-md">
+                            <div class="bg-white dark:bg-slate-700 text-main p-3 rounded-xl rounded-bl-lg shadow-sm">
+                                <div class="text-sm ai-response">${message}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                messageElement.innerHTML = content;
+                chatHistory.appendChild(messageElement);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }
+
+            function showTypingIndicator() {
+                const typingElement = document.createElement('div');
+                typingElement.id = 'typing-indicator';
+                typingElement.classList.add('flex', 'gap-3', 'my-2', 'items-center', 'justify-start');
+                typingElement.innerHTML = `
+                    <div class="w-8 h-8 rounded-full flex-shrink-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                        <i class="fas fa-robot text-green-500"></i>
+                    </div>
+                    <div class="max-w-xs lg:max-w-md">
+                        <div class="bg-white dark:bg-slate-700 text-main p-3 rounded-xl rounded-bl-lg shadow-sm">
+                            <div class="typing-indicator text-secondary"><span></span><span></span><span></span></div>
+                        </div>
+                    </div>
+                `;
+                chatHistory.appendChild(typingElement);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }
+
+            function removeTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) indicator.remove();
+            }
+
+            function generateAiResponse(query) {
+                query = query.toLowerCase();
+                const findLandById = (id) => masterActivityData.find(land => land.id.toLowerCase() === id.toLowerCase());
+                
+                if (query.includes('how many') && query.includes('total')) {
+                    return `You have ${masterActivityData.length} total land records.`;
+                }
+                
+                if (query.includes('list') || query.includes('show')) {
+                    let lands, status = 'all';
+                    if (query.includes('verified')) status = 'verified';
+                    else if (query.includes('pending')) status = 'pending';
+                    else if (query.includes('rejected')) status = 'rejected';
+                    
+                    lands = status === 'all' ? masterActivityData : masterActivityData.filter(l => l.status === status);
+                    
+                    if (lands.length === 0) return `I couldn't find any ${status} lands.`;
+                    
+                    let response = `Here are the ${status} lands:<br><ul class="list-disc pl-5 mt-2 space-y-1">`;
+                    lands.forEach(land => { response += `<li><b>${land.id}</b>: ${land.location} (${land.area})</li>`; });
+                    response += '</ul>';
+                    return response;
+                }
+                
+                const idMatch = query.match(/lr\d{3}/);
+                if (idMatch) {
+                    const land = findLandById(idMatch[0]);
+                    return land ? `Status for <b>${land.id}</b> is <b>${land.status}</b>.` : `I couldn't find a record for ${idMatch[0].toUpperCase()}.`;
+                }
+
+                return "Sorry, I can't help with that. Try asking 'how many total lands?' or 'show me verified lands'.";
+            }
+
+            aiSearchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const userInput = aiSearchInput.value.trim();
+                if (!userInput) return;
+                
+                appendMessage(userInput, 'user');
+                aiSearchInput.value = '';
+                
+                showTypingIndicator();
+                
+                setTimeout(() => {
+                    const aiResponse = generateAiResponse(userInput);
+                    removeTypingIndicator();
+                    appendMessage(aiResponse, 'ai');
+                }, 1500);
+            });
+
+            // --- INITIAL LOAD ---
+            updateStats();
+            renderActivityList();
+            renderNewsFeed();
+        });
+    </script>
+</body>
+</html>
