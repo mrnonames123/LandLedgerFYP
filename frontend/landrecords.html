@@ -207,16 +207,12 @@
       document.getElementById('rejected-panel').style.display = 'none';
 
 
-      // Accordion for viewing submission details
+      // Navigate to view land records page
       const viewButtons = document.querySelectorAll('.view-details-btn');
       viewButtons.forEach(button => {
         button.addEventListener('click', function() {
-          const content = this.closest('.bg-white').querySelector('.details-content');
-          if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-          } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-          }
+          // Navigate to the view land records page
+          window.location.href = 'viewlandrecod.html';
         });
       });
     });

@@ -223,11 +223,11 @@
       }
 
       function attachEventListeners() {
-          // Accordion
+          // Navigate to admin view land records page
           document.querySelectorAll('.view-submission-btn').forEach(button => {
               button.addEventListener('click', function() {
-                  const content = this.closest('.card-bg').querySelector('.details-content');
-                  content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+                  // Navigate to the admin view land records page
+                  window.location.href = 'addminviewlandrecords.html';
               });
           });
 
