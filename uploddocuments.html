@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Submission - LandLedger+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+        animation-delay: var(--animation-delay, 0s);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <nav class="bg-white nav-bg shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="dashboard.html" class="flex-shrink-0 flex items-center">
+            <i class="fas fa-map-marked-alt text-emerald-500 text-2xl mr-2"></i>
+            <span class="text-xl font-bold text-gray-900">Land<span class="text-emerald-500">Ledger+</span></span>
+          </a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="account.html" class="hidden sm:block px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-500 transition-colors">
+            <i class="fas fa-sign-out-alt mr-1"></i>Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="w-full p-8 space-y-8 bg-white card-bg border border-gray-200 rounded-2xl shadow-xl">
+        
+        <div class="text-center animate-fade-in-up">
+          <h2 class="text-3xl font-extrabold text-gray-900">Land Records Submission Form</h2>
+          <p class="mt-2 text-sm text-gray-600">Please provide all details and documents for verification.</p>
+        </div>
+
+        <form class="space-y-8" action="#" method="POST">
+          
+          <fieldset class="space-y-4">
+            <legend class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-2">Owner & Property Details</legend>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+              <div class="relative animate-fade-in-up" style="--animation-delay: 100ms;">
+                <label for="owner-name" class="block text-sm font-medium text-gray-700 mb-1">Owner's Full Name</label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pt-6"><i class="fas fa-user text-gray-400"></i></span>
+                <input type="text" id="owner-name" required class="pl-10 appearance-none block w-full px-4 py-3 form-input border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition-all duration-300" placeholder="As per official documents">
+              </div>
+              <div class="relative animate-fade-in-up" style="--animation-delay: 200ms;">
+                <label for="contact-number" class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pt-6"><i class="fas fa-phone text-gray-400"></i></span>
+                <input type="tel" id="contact-number" required class="pl-10 appearance-none block w-full px-4 py-3 form-input border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition-all duration-300" placeholder="e.g., 9876543210">
+              </div>
+              <div class="relative md:col-span-2 animate-fade-in-up" style="--animation-delay: 300ms;">
+                <label for="parcel-id" class="block text-sm font-medium text-gray-700 mb-1">Parcel ID / Survey Number</label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pt-6"><i class="fas fa-hashtag text-gray-400"></i></span>
+                <input type="text" id="parcel-id" required class="pl-10 appearance-none block w-full px-4 py-3 form-input border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition-all duration-300" placeholder="e.g., MH-NAG-12345">
+              </div>
+
+              <div class="animate-fade-in-up md:col-span-2" style="--animation-delay: 400ms;">
+                <label for="landName" class="block text-sm font-medium text-gray-700">Land Name / Identifier</label>
+                <div class="relative mt-1">
+                    <i class="fa-solid fa-tag absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="landName" class="form-input block w-full rounded-md bg-white border border-gray-300 py-3 pl-10 pr-4 focus:border-emerald-500 focus:ring-emerald-500 transition sm:text-sm" placeholder="e.g., North Field Plot" required>
+                </div>
+              </div>
+
+              <div class="animate-fade-in-up" style="--animation-delay: 500ms;">
+                <label for="landSize" class="block text-sm font-medium text-gray-700">Size (in acres)</label>
+                <div class="relative mt-1">
+                    <i class="fa-solid fa-ruler-combined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="number" id="landSize" class="form-input block w-full rounded-md bg-white border border-gray-300 py-3 pl-10 pr-4 focus:border-emerald-500 focus:ring-emerald-500 transition sm:text-sm" placeholder="e.g., 12.5" required>
+                </div>
+              </div>
+
+              <div class="md:col-span-2 animate-fade-in-up" style="--animation-delay: 600ms;">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description" rows="4" class="form-input mt-1 block w-full rounded-md bg-white border border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 transition sm:text-sm" placeholder="Add any relevant details about the property..."></textarea>
+              </div>
+
+              <div class="animate-fade-in-up" style="--animation-delay: 700ms;">
+                <label for="latitude" class="block text-sm font-medium text-gray-700">Latitude</label>
+                <input type="text" id="latitude" class="form-input w-full mt-1 rounded-md bg-white border border-gray-300 py-3 px-4 focus:border-emerald-500 focus:ring-emerald-500 transition" placeholder="e.g., 21.0556">
+              </div>
+              <div class="animate-fade-in-up" style="--animation-delay: 800ms;">
+                <label for="longitude" class="block text-sm font-medium text-gray-700">Longitude</label>
+                <input type="text" id="longitude" class="form-input w-full mt-1 rounded-md bg-white border border-gray-300 py-3 px-4 focus:border-emerald-500 focus:ring-emerald-500 transition" placeholder="e.g., 79.0225">
+              </div>
+              <div class="md:col-span-2 animate-fade-in-up" style="--animation-delay: 900ms;">
+                <label class="block text-sm font-medium text-gray-700">Location Preview</label>
+                <iframe id="previewMap" class="mt-2 rounded-lg w-full h-64 border border-gray-300" src="https://maps.google.com/maps?output=embed" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+              </div>
+          </fieldset>
+
+          <fieldset class="space-y-4 animate-fade-in-up" style="--animation-delay: 1000ms;">
+            <legend class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-2">Legal History</legend>
+            <p class="text-sm font-medium text-gray-700 pt-2">Are there any current or past legal issues associated with this property?</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <input type="radio" name="legal_issue" id="legal-issue-no" value="no" class="peer hidden" checked />
+                <label for="legal-issue-no" class="flex items-center justify-center cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-700 peer-checked:bg-emerald-50 peer-checked:border-emerald-500 peer-checked:text-emerald-600 peer-checked:font-bold transition-all duration-300"><i class="fas fa-check-circle mr-2"></i>No</label>
+              </div>
+              <div>
+                <input type="radio" name="legal_issue" id="legal-issue-yes" value="yes" class="peer hidden" />
+                <label for="legal-issue-yes" class="flex items-center justify-center cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-700 peer-checked:bg-red-50 peer-checked:border-red-500 peer-checked:text-red-600 peer-checked:font-bold transition-all duration-300"><i class="fas fa-exclamation-triangle mr-2"></i>Yes</label>
+              </div>
+            </div>
+            <div id="legal-docs-upload-section" class="hidden pt-4">
+               <label for="legal-docs" class="block text-sm font-medium text-red-600 mb-2">If yes, please upload all relevant legal documents (e.g., court orders, dispute papers).</label>
+               <input type="file" id="legal-docs" class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"/>
+            </div>
+          </fieldset>
+
+          <fieldset class="animate-fade-in-up" style="--animation-delay: 1100ms;">
+            <legend class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-2">Required Document Checklist</legend>
+            <div class="mt-4 space-y-5">
+              
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">1. Sale Deed / Title Deed</h4>
+                  <p class="text-xs text-gray-500">The primary legal document proving ownership transfer.</p>
+                  <div id="status-sale-deed" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-sale-deed" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-sale-deed" class="hidden document-upload-input" data-status-target="status-sale-deed">
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">2. Mother Deed (Chain of Title)</h4>
+                  <p class="text-xs text-gray-500">All preceding deeds to trace the property's ownership history.</p>
+                  <div id="status-mother-deed" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-mother-deed" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-mother-deed" class="hidden document-upload-input" data-status-target="status-mother-deed">
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">3. Encumbrance Certificate (EC)</h4>
+                  <p class="text-xs text-gray-500">Certifies the property is free from legal or monetary dues.</p>
+                  <div id="status-ec" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-ec" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-ec" class="hidden document-upload-input" data-status-target="status-ec">
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">4. Latest Property Tax Receipts</h4>
+                  <p class="text-xs text-gray-500">Receipts proving all property taxes have been paid to date.</p>
+                  <div id="status-tax" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-tax" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-tax" class="hidden document-upload-input" data-status-target="status-tax">
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">5. Khata Certificate / Extract</h4>
+                  <p class="text-xs text-gray-500">Identifies the property owner for tax payment purposes.</p>
+                  <div id="status-khata" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-khata" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-khata" class="hidden document-upload-input" data-status-target="status-khata">
+                </div>
+              </div>
+
+               <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">6. Approved Layout Plan / Survey Sketch</h4>
+                  <p class="text-xs text-gray-500">Official map from survey dept. or planning authority.</p>
+                  <div id="status-layout" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-layout" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-layout" class="hidden document-upload-input" data-status-target="status-layout">
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">7. Conversion Order (NA Order)</h4>
+                  <p class="text-xs text-gray-500">Required if land use was converted (e.g., Agricultural to Non-Agricultural).</p>
+                  <div id="status-na" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-na" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-na" class="hidden document-upload-input" data-status-target="status-na">
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">8. Owner's Identity & Address Proof</h4>
+                  <p class="text-xs text-gray-500">Aadhaar Card, Passport, Voter ID etc.</p>
+                  <div id="status-id" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <label for="upload-id" class="upload-button cursor-pointer bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-4 rounded-md transition-colors duration-300 upload-button-bg"><i class="fas fa-upload mr-2"></i>Upload</label>
+                  <input type="file" id="upload-id" class="hidden document-upload-input" data-status-target="status-id">
+                </div>
+              </div>
+
+            </div>
+          </fieldset>
+          
+          <div class="pt-6 animate-fade-in-up" style="--animation-delay: 1200ms;">
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-emerald-500 to-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg">
+              Submit All Details & Documents
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Conditional Legal Docs Upload ---
+      const legalIssueRadios = document.querySelectorAll('input[name="legal_issue"]');
+      const legalDocsSection = document.getElementById('legal-docs-upload-section');
+      legalIssueRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (this.value === 'yes') {
+            legalDocsSection.classList.remove('hidden');
+          } else {
+            legalDocsSection.classList.add('hidden');
+          }
+        });
+      });
+
+      // --- Individual file upload status handler for the checklist ---
+      const uploadInputs = document.querySelectorAll('.document-upload-input');
+      uploadInputs.forEach(input => {
+        input.addEventListener('change', function() {
+          const targetId = this.dataset.statusTarget;
+          const statusDiv = document.getElementById(targetId);
+          if (this.files.length > 0 && statusDiv) {
+            const fileName = this.files[0].name;
+            statusDiv.innerHTML = `<i class="fas fa-check-circle text-emerald-500 mr-2"></i><span class="font-medium text-gray-700">${fileName}</span>`;
+          }
+        });
+      });
+
+      // --- Map Preview Updater ---
+      const latitudeInput = document.getElementById('latitude');
+      const longitudeInput = document.getElementById('longitude');
+      const previewMap = document.getElementById('previewMap');
+
+      function updateMap() {
+          const lat = latitudeInput.value || '21.0556'; // Default to Jamtha, MH
+          const lon = longitudeInput.value || '79.0225';
+          previewMap.src = `https://maps.google.com/maps?q=$${lat},${lon}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+      }
+
+      // Initial map load and event listeners
+      updateMap(); 
+      latitudeInput.addEventListener('input', updateMap);
+      longitudeInput.addEventListener('input', updateMap);
+    });
+  </script>
+</body>
+</html>

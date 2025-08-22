@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LandLedger+ - Modern Land Records Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Professional Clean Design System */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+    
+    :root {
+      --primary-600: #059669;
+      --primary-700: #047857;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-900: #111827;
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .btn-primary {
+      background: var(--primary-600);
+      transition: all 0.2s ease-in-out;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-700);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .card {
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .feature-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+    }
+    
+    .nav-link {
+      position: relative;
+      transition: color 0.2s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-600);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Subtle animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-fade-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .animate-fade-up-delay {
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+    
+    /* Background Slideshow */
+    .hero-slideshow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+    
+    .slide.active {
+      opacity: 1;
+    }
+    
+    .slide::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(5, 150, 105, 0.8) 0%, rgba(4, 120, 87, 0.9) 100%);
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body class="bg-white font-sans antialiased">
+  <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 flex items-center">
+            <i class="fas fa-map-marked-alt text-emerald-600 text-2xl mr-3"></i>
+            <span class="text-xl font-semibold text-gray-900">
+              Land<span class="text-emerald-600">Ledger+</span>
+            </span>
+          </div>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="about.html" class="nav-link text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">About</a>
+          <a href="feature.html" class="nav-link text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">Features</a>
+          <a href="howitworks.html" class="nav-link text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">How It Works</a>
+          <a href="blog.html" class="nav-link text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">Blog</a>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <a href="login.html" class="text-gray-600 hover:text-gray-900 px-4 py-2 text-sm font-medium">
+            Sign in
+          </a>
+          <a href="signup.html" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-medium">
+            Get started
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Slideshow -->
+    <div class="hero-slideshow">
+      <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2096&q=80');"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1448630360428-65456885c650?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2067&q=80');"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2089&q=80');"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-up">
+          <span class="block mb-2">Modern Land Records</span>
+          <span class="block text-emerald-300">Management Platform</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-100 mb-8 max-w-3xl mx-auto animate-fade-up-delay leading-relaxed">
+          Secure, transparent, and efficient land record management powered by advanced encryption and security protocols.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up-delay">
+          <a href="signup.html" class="w-full sm:w-auto bg-white text-emerald-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition duration-200 transform hover:scale-105 shadow-lg">
+            Get started free
+          </a>
+          <a href="#" class="w-full sm:w-auto bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-emerald-600 transition duration-200">
+            Watch demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complete Process Section -->
+  <div class="py-16 sm:py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Complete Land Record Management Process</h2>
+        <p class="text-lg text-gray-600 max-w-4xl mx-auto">
+          From account creation to final verification - your complete guide to securing your property records with advanced security protocols and expert validation.
+        </p>
+      </div>
+
+      <!-- Step-by-step Process -->
+      <div class="grid grid-cols-1 gap-12 lg:gap-16">
+        
+        <!-- Step 1: Account Creation -->
+        <div class="flex flex-col lg:flex-row items-center gap-8">
+          <div class="lg:w-1/2">
+            <div class="flex items-center mb-6">
+              <div class="flex items-center justify-center h-16 w-16 rounded-full bg-emerald-600 text-white mr-4">
+                <span class="text-xl font-bold">1</span>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Create Your Secure Account</h3>
+            </div>
+            <p class="text-gray-600 mb-4 text-lg leading-relaxed">
+              Start by creating your account with our robust identity verification system. We use multi-factor authentication and advanced encryption to ensure your personal information remains protected from the moment you sign up.
+            </p>
+            <div class="bg-emerald-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-emerald-800 mb-2">Security Features:</h4>
+              <ul class="text-emerald-700 space-y-1">
+                <li>• End-to-end encryption for all data</li>
+                <li>• Multi-factor authentication (MFA)</li>
+                <li>• Secure password requirements</li>
+                <li>• Identity verification with government documents</li>
+              </ul>
+            </div>
+          </div>
+          <div class="lg:w-1/2">
+            <div class="card p-8 text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 rounded-lg mb-4">
+                <i class="fas fa-user-plus text-emerald-600 text-2xl"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 mb-2">Quick Registration</h4>
+              <p class="text-gray-600">Secure account setup in minutes with guided identity verification</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Document Upload -->
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-8">
+          <div class="lg:w-1/2">
+            <div class="flex items-center mb-6">
+              <div class="flex items-center justify-center h-16 w-16 rounded-full bg-blue-600 text-white mr-4">
+                <span class="text-xl font-bold">2</span>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Upload & Secure Your Documents</h3>
+            </div>
+            <p class="text-gray-600 mb-4 text-lg leading-relaxed">
+              Upload your property documents through our secure portal. All files are encrypted using military-grade AES-256 encryption and stored in secure cloud infrastructure with multiple backup systems.
+            </p>
+            <div class="bg-blue-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-blue-800 mb-2">Document Security:</h4>
+              <ul class="text-blue-700 space-y-1">
+                <li>• AES-256 encryption for all documents</li>
+                <li>• Secure cloud storage with redundancy</li>
+                <li>• Access logs and audit trails</li>
+                <li>• Automatic virus and malware scanning</li>
+              </ul>
+            </div>
+          </div>
+          <div class="lg:w-1/2">
+            <div class="card p-8 text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg mb-4">
+                <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 mb-2">Secure Upload</h4>
+              <p class="text-gray-600">Military-grade encryption protects your documents during transfer and storage</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Expert Verification -->
+        <div class="flex flex-col lg:flex-row items-center gap-8">
+          <div class="lg:w-1/2">
+            <div class="flex items-center mb-6">
+              <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-600 text-white mr-4">
+                <span class="text-xl font-bold">3</span>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Manual Expert Verification</h3>
+            </div>
+            <p class="text-gray-600 mb-4 text-lg leading-relaxed">
+              Our certified land record experts manually review and verify every document. This human-driven process ensures accuracy and compliance with local regulations while maintaining the highest standards of validation.
+            </p>
+            <div class="bg-purple-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-purple-800 mb-2">Verification Process:</h4>
+              <ul class="text-purple-700 space-y-1">
+                <li>• Certified experts review all documents</li>
+                <li>• Cross-reference with government databases</li>
+                <li>• Legal compliance verification</li>
+                <li>• Quality assurance double-checking</li>
+              </ul>
+            </div>
+          </div>
+          <div class="lg:w-1/2">
+            <div class="card p-8 text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-lg mb-4">
+                <i class="fas fa-user-check text-purple-600 text-2xl"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 mb-2">Expert Review</h4>
+              <p class="text-gray-600">Certified professionals manually verify every document for accuracy</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Secure Hash & Completion -->
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-8">
+          <div class="lg:w-1/2">
+            <div class="flex items-center mb-6">
+              <div class="flex items-center justify-center h-16 w-16 rounded-full bg-orange-600 text-white mr-4">
+                <span class="text-xl font-bold">4</span>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Digital Certificate & Secure Hash</h3>
+            </div>
+            <p class="text-gray-600 mb-4 text-lg leading-relaxed">
+              Once verified, receive your official digital certificate with a unique secure hash. This immutable record provides proof of authenticity and enables easy verification while maintaining complete transparency and data integrity.
+            </p>
+            <div class="bg-orange-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-orange-800 mb-2">Final Security Features:</h4>
+              <ul class="text-orange-700 space-y-1">
+                <li>• Unique secure hash for each record</li>
+                <li>• Timestamped digital certificates</li>
+                <li>• Immutable record creation</li>
+                <li>• 24/7 chatbot support for queries</li>
+              </ul>
+            </div>
+          </div>
+          <div class="lg:w-1/2">
+            <div class="card p-8 text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-lg mb-4">
+                <i class="fas fa-certificate text-orange-600 text-2xl"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 mb-2">Digital Certificate</h4>
+              <p class="text-gray-600">Receive your official certificate with secure hash verification</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Additional Support -->
+      <div class="mt-16 text-center">
+        <div class="card p-8 bg-gradient-to-r from-emerald-50 to-blue-50">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 rounded-lg mb-4">
+            <i class="fas fa-comments text-emerald-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">24/7 Smart Support</h3>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Our intelligent chatbot provides round-the-clock assistance for land record queries, document guidance, and instant support throughout your entire journey.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+ 
+  <!-- Footer -->
+  <footer class="bg-gray-900">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+      <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div class="space-y-8 xl:col-span-1">
+          <div class="flex items-center">
+            <i class="fas fa-map-marked-alt text-emerald-400 text-2xl mr-3"></i>
+            <span class="text-xl font-semibold text-white">Land<span class="text-emerald-400">Ledger+</span></span>
+          </div>
+          <p class="text-gray-300 text-base max-w-md">
+            Modernizing land records with advanced security and encryption technology for a transparent, secure, and efficient future.
+          </p>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors duration-200">
+              <i class="fab fa-twitter text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors duration-200">
+              <i class="fab fa-facebook text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors duration-200">
+              <i class="fab fa-linkedin text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors duration-200">
+              <i class="fab fa-github text-xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 border-t border-gray-700 pt-8">
+        <p class="text-base text-gray-400 text-center">
+          &copy; 2025 LandLedger+. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Background slideshow functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.slide');
+      let currentSlide = 0;
+
+      function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }
+
+      // Change slide every 5 seconds
+      setInterval(nextSlide, 5000);
+    });
+  </script>
+</body>
+</html>

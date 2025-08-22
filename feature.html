@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features - LandLedger+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .gradient-text {
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      background-image: linear-gradient(90deg, #10b981, #059669);
+    }
+    .feature-card:hover .feature-icon {
+      transform: rotateY(180deg);
+    }
+    .glow {
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    }
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #10b981;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover:after {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="bg-white font-sans antialiased">
+  <nav class="bg-white shadow-sm sticky top-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 flex items-center">
+            <i class="fas fa-map-marked-alt text-emerald-500 text-2xl mr-2"></i>
+            <span class="text-xl font-bold text-gray-900">Land<span class="text-emerald-500">Ledger+</span></span>
+          </div>
+        </div>
+        <div class="hidden md:ml-6 md:flex md:items-center space-x-4">
+          <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-emerald-600 transition">Home</a>
+          <a href="about.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-emerald-600 transition">About</a>
+          <a href="feature.html" class="nav-link px-3 py-2 text-sm font-medium text-emerald-600 border-b-2 border-emerald-600">Features</a>
+          <a href="howitworks.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-emerald-600 transition">How It Works</a>
+          <a href="blog.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-emerald-600 transition">Blog</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="login.html" class="hidden md:block px-4 py-2 border border-emerald-500 text-emerald-500 rounded-md text-sm font-medium hover:bg-emerald-50 transition transform hover:scale-105">Login</a>
+          <a href="signup.html" class="hidden md:block px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-md text-sm font-medium hover:opacity-90 transition shadow-md hover:shadow-lg transform hover:scale-105">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="relative bg-gradient-to-br from-emerald-500 to-green-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">
+        Powerful <span class="text-gray-900 font-extrabold">Features</span>
+      </h1>
+      <p class="text-xl text-emerald-100 max-w-3xl mx-auto">
+        Discover the comprehensive tools and capabilities that make LandLedger+ the ultimate land management solution.
+      </p>
+    </div>
+  </div>
+
+  <!-- Core Features -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Core Features</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Everything you need to manage land records efficiently and securely
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="feature-card pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full transition transform hover:shadow-xl hover:-translate-y-1 card-hover">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-gradient-to-r from-emerald-500 to-green-600 rounded-md shadow-lg glow">
+                  <i class="feature-icon h-6 w-6 text-white fas fa-plus-circle transition-transform duration-500"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Add Land Records</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Easily register new properties with our intuitive interface and guided process. Upload documents, add property details, and complete registration in minutes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full transition transform hover:shadow-xl hover:-translate-y-1 card-hover">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-gradient-to-r from-emerald-500 to-green-600 rounded-md shadow-lg glow">
+                  <i class="feature-icon h-6 w-6 text-white fas fa-file-shield transition-transform duration-500"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Secure Document Storage</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Military-grade encryption for all your documents with automated backup and version control. Access your files anytime, anywhere.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full transition transform hover:shadow-xl hover:-translate-y-1 card-hover">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-gradient-to-r from-emerald-500 to-green-600 rounded-md shadow-lg glow">
+                  <i class="feature-icon h-6 w-6 text-white fas fa-check-circle transition-transform duration-500"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Land Records Verification</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Automated verification system to validate land records authenticity, ownership documents, and legal compliance before approval.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full transition transform hover:shadow-xl hover:-translate-y-1 card-hover">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-gradient-to-r from-emerald-500 to-green-600 rounded-md shadow-lg glow">
+                  <i class="feature-icon h-6 w-6 text-white fas fa-chart-line transition-transform duration-500"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">User Dashboard</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Comprehensive dashboard showing your registered properties, recent activities, document status, verification progress, and account settings in one unified view.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full transition transform hover:shadow-xl hover:-translate-y-1 card-hover">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-gradient-to-r from-emerald-500 to-green-600 rounded-md shadow-lg glow">
+                  <i class="feature-icon h-6 w-6 text-white fas fa-mobile-alt transition-transform duration-500"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Mobile Access</h3>
+              <p class="mt-5 text-base text-gray-500">
+                Full mobile compatibility with responsive design. Manage your land records on the go with our mobile-optimized interface.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card pt-6">
+          <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full transition transform hover:shadow-xl hover:-translate-y-1 card-hover">
+            <div class="-mt-6">
+              <div>
+                <span class="inline-flex items-center justify-center p-3 bg-gradient-to-r from-emerald-500 to-green-600 rounded-md shadow-lg glow">
+                  <i class="feature-icon h-6 w-6 text-white fas fa-comments transition-transform duration-500"></i>
+                </span>
+              </div>
+              <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Smart Chatbot</h3>
+              <p class="mt-5 text-base text-gray-500">
+                24/7 intelligent chatbot assistant to help you with land record queries, document guidance, and instant support for all your questions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advanced Features -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Advanced Capabilities</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Professional tools for advanced users and organizations
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="bg-white rounded-lg shadow-lg p-8 border-2 border-blue-200 card-hover">
+          <div class="flex items-center mb-6">
+            <div class="bg-blue-100 rounded-lg p-3 mr-4 transition-transform duration-300 hover:scale-110">
+              <i class="fas fa-link text-blue-600 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900">Blockchain Integration</h3>
+          </div>
+          <p class="text-gray-600 mb-6">
+            Secure your land records with immutable blockchain technology. Every transaction is recorded with cryptographic hashes for ultimate transparency and security.
+          </p>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Immutable records</li>
+            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Cryptographic verification</li>
+            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Transparent transactions</li>
+          </ul>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-8 border-2 border-emerald-200 card-hover">
+          <div class="flex items-center mb-6">
+            <div class="bg-emerald-100 rounded-lg p-3 mr-4 transition-transform duration-300 hover:scale-110">
+              <i class="fas fa-file-contract text-emerald-600 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900">Digital Document Management</h3>
+          </div>
+          <p class="text-gray-600 mb-6">
+            Advanced document handling system with automated processing, OCR capabilities, and intelligent categorization for all legal documents.
+          </p>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-center"><i class="fas fa-check text-emerald-600 mr-2"></i> OCR text extraction</li>
+            <li class="flex items-center"><i class="fas fa-check text-emerald-600 mr-2"></i> Auto categorization</li>
+            <li class="flex items-center"><i class="fas fa-check text-emerald-600 mr-2"></i> Version control</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-50">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:py-10 lg:px-8">
+      <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div class="space-y-4 xl:col-span-1">
+          <div class="flex items-center">
+            <i class="fas fa-map-marked-alt text-emerald-500 text-xl mr-2"></i>
+            <span class="text-lg font-bold text-gray-900">Land<span class="text-emerald-500">Ledger+</span></span>
+          </div>
+          <p class="text-gray-500 text-sm">
+            Modernizing land records with AI technology for a transparent future.
+          </p>
+        </div>
+      </div>
+      <div class="mt-8 border-t border-gray-200 pt-6">
+        <p class="text-sm text-gray-400 text-center">&copy; 2025 LandLedger+. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Page initialization code can go here
+    });
+  </script>
+</body>
+</html>

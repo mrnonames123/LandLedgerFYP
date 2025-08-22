@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Submission - LandLedger+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+        animation-delay: var(--animation-delay, 0s);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <nav class="bg-white nav-bg shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="dashboard.html" class="flex-shrink-0 flex items-center">
+            <i class="fas fa-map-marked-alt text-emerald-500 text-2xl mr-2"></i>
+            <span class="text-xl font-bold text-gray-900">Land<span class="text-emerald-500">Ledger+</span></span>
+          </a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="admin.html" class="hidden sm:block px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-500 transition-colors">
+            <i class="fas fa-arrow-left mr-1"></i>Go Back
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="w-full p-8 space-y-8 bg-white card-bg border border-gray-200 rounded-2xl shadow-xl">
+        
+        <div class="text-center animate-fade-in-up">
+          <h2 class="text-3xl font-extrabold text-gray-900">Submitted Land Records</h2>
+          <p class="mt-2 text-sm text-gray-600">View your submitted land record details and documents.</p>
+        </div>
+
+        <form class="space-y-8" action="#" method="POST">
+          
+          <fieldset class="space-y-4">
+            <legend class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-2">Owner & Property Details</legend>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+              <div class="relative animate-fade-in-up" style="--animation-delay: 100ms;">
+                <label for="owner-name" class="block text-sm font-medium text-gray-700 mb-1">Owner's Full Name</label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pt-6"><i class="fas fa-user text-gray-400"></i></span>
+                <input type="text" id="owner-name" required class="pl-10 appearance-none block w-full px-4 py-3 form-input border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition-all duration-300" placeholder="As per official documents">
+              </div>
+              <div class="relative animate-fade-in-up" style="--animation-delay: 200ms;">
+                <label for="contact-number" class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pt-6"><i class="fas fa-phone text-gray-400"></i></span>
+                <input type="tel" id="contact-number" required class="pl-10 appearance-none block w-full px-4 py-3 form-input border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition-all duration-300" placeholder="e.g., 9876543210">
+              </div>
+              <div class="relative md:col-span-2 animate-fade-in-up" style="--animation-delay: 300ms;">
+                <label for="parcel-id" class="block text-sm font-medium text-gray-700 mb-1">Parcel ID / Survey Number</label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pt-6"><i class="fas fa-hashtag text-gray-400"></i></span>
+                <input type="text" id="parcel-id" required class="pl-10 appearance-none block w-full px-4 py-3 form-input border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition-all duration-300" placeholder="e.g., MH-NAG-12345">
+              </div>
+
+              <div class="animate-fade-in-up md:col-span-2" style="--animation-delay: 400ms;">
+                <label for="landName" class="block text-sm font-medium text-gray-700">Land Name / Identifier</label>
+                <div class="relative mt-1">
+                    <i class="fa-solid fa-tag absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="landName" class="form-input block w-full rounded-md bg-white border border-gray-300 py-3 pl-10 pr-4 focus:border-emerald-500 focus:ring-emerald-500 transition sm:text-sm" placeholder="e.g., North Field Plot" required>
+                </div>
+              </div>
+
+              <div class="animate-fade-in-up" style="--animation-delay: 500ms;">
+                <label for="landSize" class="block text-sm font-medium text-gray-700">Size (in acres)</label>
+                <div class="relative mt-1">
+                    <i class="fa-solid fa-ruler-combined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="number" id="landSize" class="form-input block w-full rounded-md bg-white border border-gray-300 py-3 pl-10 pr-4 focus:border-emerald-500 focus:ring-emerald-500 transition sm:text-sm" placeholder="e.g., 12.5" required>
+                </div>
+              </div>
+
+              <div class="md:col-span-2 animate-fade-in-up" style="--animation-delay: 600ms;">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description" rows="4" class="form-input mt-1 block w-full rounded-md bg-white border border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 transition sm:text-sm" placeholder="Add any relevant details about the property..."></textarea>
+              </div>
+
+              <div class="animate-fade-in-up" style="--animation-delay: 700ms;">
+                <label for="latitude" class="block text-sm font-medium text-gray-700">Latitude</label>
+                <input type="text" id="latitude" class="form-input w-full mt-1 rounded-md bg-white border border-gray-300 py-3 px-4 focus:border-emerald-500 focus:ring-emerald-500 transition" placeholder="e.g., 21.0556">
+              </div>
+              <div class="animate-fade-in-up" style="--animation-delay: 800ms;">
+                <label for="longitude" class="block text-sm font-medium text-gray-700">Longitude</label>
+                <input type="text" id="longitude" class="form-input w-full mt-1 rounded-md bg-white border border-gray-300 py-3 px-4 focus:border-emerald-500 focus:ring-emerald-500 transition" placeholder="e.g., 79.0225">
+              </div>
+              <div class="md:col-span-2 animate-fade-in-up" style="--animation-delay: 900ms;">
+                <label class="block text-sm font-medium text-gray-700">Location Preview</label>
+                <iframe id="previewMap" class="mt-2 rounded-lg w-full h-64 border border-gray-300" src="https://maps.google.com/maps?output=embed" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+              </div>
+          </fieldset>
+
+          <fieldset class="space-y-4 animate-fade-in-up" style="--animation-delay: 1000ms;">
+            <legend class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-2">Legal History</legend>
+            <p class="text-sm font-medium text-gray-700 pt-2">Legal issues status for this property:</p>
+            
+            <!-- Change this value to simulate different scenarios: 'no' or 'yes' -->
+            <div id="legal-status-display" class="mt-4">
+              <!-- This will be populated by JavaScript based on the legal status -->
+            </div>
+          </fieldset>
+
+          <fieldset class="animate-fade-in-up" style="--animation-delay: 1100ms;">
+            <legend class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-2">Required Document Checklist</legend>
+            <div class="mt-4 space-y-5">
+              
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">1. Sale Deed / Title Deed</h4>
+                  <p class="text-xs text-gray-500">The primary legal document proving ownership transfer.</p>
+                  <div id="status-sale-deed" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('sale-deed')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">2. Mother Deed (Chain of Title)</h4>
+                  <p class="text-xs text-gray-500">All preceding deeds to trace the property's ownership history.</p>
+                  <div id="status-mother-deed" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('mother-deed')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">3. Encumbrance Certificate (EC)</h4>
+                  <p class="text-xs text-gray-500">Certifies the property is free from legal or monetary dues.</p>
+                  <div id="status-ec" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('ec')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">4. Latest Property Tax Receipts</h4>
+                  <p class="text-xs text-gray-500">Receipts proving all property taxes have been paid to date.</p>
+                  <div id="status-tax" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('tax')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">5. Khata Certificate / Extract</h4>
+                  <p class="text-xs text-gray-500">Identifies the property owner for tax payment purposes.</p>
+                  <div id="status-khata" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('khata')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+               <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">6. Approved Layout Plan / Survey Sketch</h4>
+                  <p class="text-xs text-gray-500">Official map from survey dept. or planning authority.</p>
+                  <div id="status-layout" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('layout')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">7. Conversion Order (NA Order)</h4>
+                  <p class="text-xs text-gray-500">Required if land use was converted (e.g., Agricultural to Non-Agricultural).</p>
+                  <div id="status-na" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('na')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+              <div class="document-item bg-white list-item-bg p-4 border border-gray-200 rounded-lg flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">8. Owner's Identity & Address Proof</h4>
+                  <p class="text-xs text-gray-500">Aadhaar Card, Passport, Voter ID etc.</p>
+                  <div id="status-id" class="text-sm mt-1"></div>
+                </div>
+                <div>
+                  <button type="button" class="view-button cursor-pointer bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('id')"><i class="fas fa-eye mr-2"></i>View</button>
+                </div>
+              </div>
+
+            </div>
+          </fieldset>
+          
+          <!-- Admin Action Buttons -->
+          <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+            <button type="button" id="reject-btn" class="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors duration-300 flex items-center gap-2">
+              <i class="fas fa-times-circle"></i>
+              Reject Application
+            </button>
+            <button type="button" id="verify-btn" class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors duration-300 flex items-center gap-2">
+              <i class="fas fa-check-circle"></i>
+              Verify & Approve
+            </button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Rejection Modal -->
+  <div id="rejection-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex justify-center items-center">
+    <div class="modal-content bg-white card-bg rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-900 mb-4">Reason for Rejection</h3>
+      <textarea id="rejection-reason" rows="4" class="w-full p-3 border border-gray-300 rounded-md form-input focus:ring-emerald-500 focus:border-emerald-500" placeholder="Please provide a clear reason for rejecting this application..."></textarea>
+      <div class="mt-6 flex justify-end space-x-3">
+        <button id="cancel-rejection" class="px-4 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition border border-gray-600">Cancel</button>
+        <button id="confirm-rejection" class="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition">Confirm Rejection</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Conditional Legal Docs Upload ---
+      const legalIssueRadios = document.querySelectorAll('input[name="legal_issue"]');
+      const legalDocsSection = document.getElementById('legal-docs-upload-section');
+      legalIssueRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (this.value === 'yes') {
+            legalDocsSection.classList.remove('hidden');
+          } else {
+            legalDocsSection.classList.add('hidden');
+          }
+        });
+      });
+
+      // --- Individual file upload status handler for the checklist ---
+      // Show document status as already uploaded
+      const statusDivs = {
+        'status-sale-deed': 'Sale_Deed_Document.pdf',
+        'status-mother-deed': 'Mother_Deed_Chain.pdf',
+        'status-ec': 'Encumbrance_Certificate.pdf',
+        'status-tax': 'Property_Tax_Receipt.pdf',
+        'status-khata': 'Khata_Certificate.pdf',
+        'status-layout': 'Layout_Plan_Survey.pdf',
+        'status-na': 'NA_Conversion_Order.pdf',
+        'status-id': 'Owner_Identity_Proof.pdf'
+      };
+      
+      Object.entries(statusDivs).forEach(([statusId, fileName]) => {
+        const statusDiv = document.getElementById(statusId);
+        if (statusDiv) {
+          statusDiv.innerHTML = `<i class="fas fa-check-circle text-emerald-500 mr-2"></i><span class="font-medium text-gray-700">${fileName}</span>`;
+        }
+      });
+
+      // --- Legal History Status Display ---
+      // Change this value to simulate different scenarios: 'no' or 'yes'
+      const legalIssueStatus = 'no'; // Change to 'yes' to test the other scenario
+      const legalStatusDisplay = document.getElementById('legal-status-display');
+      
+      if (legalIssueStatus === 'no') {
+        legalStatusDisplay.innerHTML = `
+          <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-md">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <i class="fas fa-check-circle text-emerald-500 text-xl"></i>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-lg font-medium text-emerald-800">No Legal Issues</h3>
+                <p class="text-emerald-700">This property has no current or past legal issues associated with it.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (legalIssueStatus === 'yes') {
+        legalStatusDisplay.innerHTML = `
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-lg font-medium text-red-800">Legal Issues Reported</h3>
+                <p class="text-red-700 mb-4">Legal documents have been submitted for this property.</p>
+                <div class="bg-white rounded-lg p-4 border border-red-200">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-semibold text-gray-800">Legal Documents</h4>
+                      <p class="text-xs text-gray-500">Court orders, dispute papers, and related legal documents</p>
+                      <div class="text-sm mt-1">
+                        <i class="fas fa-check-circle text-emerald-500 mr-2"></i>
+                        <span class="font-medium text-gray-700">Legal_Documents_Package.pdf</span>
+                      </div>
+                    </div>
+                    <div>
+                      <button type="button" class="view-button cursor-pointer bg-red-50 text-red-700 hover:bg-red-100 font-bold py-2 px-4 rounded-md transition-colors duration-300" onclick="viewDocument('legal-docs')">
+                        <i class="fas fa-eye mr-2"></i>View
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // --- Map Preview Updater ---
+      const latitudeInput = document.getElementById('latitude');
+      const longitudeInput = document.getElementById('longitude');
+      const previewMap = document.getElementById('previewMap');
+
+      function updateMap() {
+          const lat = latitudeInput.value || '21.0556'; // Default to Jamtha, MH
+          const lon = longitudeInput.value || '79.0225';
+          previewMap.src = `https://maps.google.com/maps?q=$${lat},${lon}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+      }
+
+      // Initial map load and event listeners
+      updateMap(); 
+      latitudeInput.addEventListener('input', updateMap);
+      longitudeInput.addEventListener('input', updateMap);
+
+      // --- Admin Action Buttons ---
+      const rejectBtn = document.getElementById('reject-btn');
+      const verifyBtn = document.getElementById('verify-btn');
+      const rejectionModal = document.getElementById('rejection-modal');
+      const cancelRejectionBtn = document.getElementById('cancel-rejection');
+      const confirmRejectionBtn = document.getElementById('confirm-rejection');
+      const rejectionReasonTextarea = document.getElementById('rejection-reason');
+
+      // Show rejection modal
+      rejectBtn.addEventListener('click', function() {
+        rejectionModal.classList.remove('hidden');
+        rejectionReasonTextarea.focus();
+      });
+
+      // Hide rejection modal
+      function hideRejectionModal() {
+        rejectionModal.classList.add('hidden');
+        rejectionReasonTextarea.value = '';
+      }
+
+      cancelRejectionBtn.addEventListener('click', hideRejectionModal);
+      
+      // Click outside modal to close
+      rejectionModal.addEventListener('click', function(e) {
+        if (e.target === rejectionModal) {
+          hideRejectionModal();
+        }
+      });
+
+      // Confirm rejection
+      confirmRejectionBtn.addEventListener('click', function() {
+        const reason = rejectionReasonTextarea.value.trim();
+        if (!reason) {
+          alert('Please provide a reason for rejection.');
+          return;
+        }
+        
+        // In a real application, this would send the rejection to the server
+        alert(`Application rejected successfully.\n\nReason: ${reason}`);
+        hideRejectionModal();
+        
+        // Redirect back to admin panel after rejection
+        setTimeout(() => {
+          window.location.href = 'admin.html';
+        }, 1000);
+      });
+
+      // Verify button
+      verifyBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to verify and approve this application?')) {
+          // In a real application, this would send the verification to the server
+          alert('Application verified and approved successfully!');
+          
+          // Redirect back to admin panel after verification
+          setTimeout(() => {
+            window.location.href = 'admin.html';
+          }, 1000);
+        }
+      });
+    });
+
+    // --- View Document Function ---
+    function viewDocument(docType) {
+      const documentNames = {
+        'sale-deed': 'Sale Deed / Title Deed',
+        'mother-deed': 'Mother Deed (Chain of Title)',
+        'ec': 'Encumbrance Certificate (EC)',
+        'tax': 'Latest Property Tax Receipts',
+        'khata': 'Khata Certificate / Extract',
+        'layout': 'Approved Layout Plan / Survey Sketch',
+        'na': 'Conversion Order (NA Order)',
+        'id': 'Owner\'s Identity & Address Proof',
+        'legal-docs': 'Legal Documents Package'
+      };
+      
+      const docName = documentNames[docType] || 'Document';
+      alert(`Opening ${docName} document viewer...\n\nThis would typically open a document viewer or download the file.`);
+      
+      // In a real application, this would:
+      // - Open a modal with document preview
+      // - Download the document
+      // - Navigate to a document viewer page
+      // Example: window.open(`/documents/view/${docType}`, '_blank');
+    }
+  </script>
+</body>
+</html>
